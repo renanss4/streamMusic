@@ -4,13 +4,12 @@ from playlist import Playlist
 
 class Pessoa(ABC):
     @abstractclassmethod
-    def __init__(self, nome: str, email: str, senha: str, telefone: int,
-                 nome_playlist='Músicas Favoritas', descricao='Lista de músicas favoritas'):
+    def __init__(self, nome: str, email: str, senha: str, telefone: int):
         self.__nome = nome
         self.__email = email
         self.__senha = senha
         self.__telefone = telefone    
-        self.__playlists = [Playlist(nome_playlist, descricao)]
+        self.__playlists = [Playlist('Músicas Favoritas', 'Lista de músicas favoritas')]
 
     @property
     def nome(self):

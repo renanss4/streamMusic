@@ -2,10 +2,10 @@ from musica import Musica
 
 
 class Playlist:
-    def __init__(self, nome: str, descricao = ''):
+    def __init__(self, nome: str, descricao=''):
         self.__nome = nome
         self.__descricao = descricao
-        self.__musicas = [Musica]
+        self.__musicas = []
 
     @property
     def nome(self):
@@ -26,4 +26,10 @@ class Playlist:
     @property
     def musicas(self):
         return self.__musicas
-    
+
+    def adicionar_musica(self, musica: Musica):
+        self.__musicas.append(musica)
+        return f'A música {musica.nome} foi adiciona com sucesso'
+
+    def remover_musica(self, musica: Musica):
+        self.__musicas.remove(musica)
