@@ -1,0 +1,43 @@
+from artista import Artista
+from gravadora import Gravadora
+from datetime import date
+
+
+class Contrato:
+    def __init__(self, artista: Artista, gravadora: Gravadora, data_inicio: date, data_fim: date):
+        self.__artista = artista
+        self.__gravadora = gravadora
+        self.__data_inicio = data_inicio
+        self.__data_fim = data_fim
+
+    @property
+    def artista(self):
+        return self.__artista
+
+    @artista.setter
+    def artista(self, artista):
+        self.__artista = artista
+
+    @property
+    def gravadora(self):
+        return self.__gravadora
+
+    @gravadora.setter
+    def gravadora(self, gravadora):
+        self.__gravadora = gravadora
+
+    @property
+    def data_inicio(self):
+        return self.__data_inicio
+
+    @data_inicio.setter
+    def data_inicio(self, data_inicio):
+        self.__data_inicio = data_inicio
+
+    @property
+    def data_fim(self):
+        return self.__data_fim
+
+    @data_fim.setter
+    def data_fim(self, data_fim):
+        self.__data_fim = data_fim
