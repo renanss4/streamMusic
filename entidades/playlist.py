@@ -1,11 +1,12 @@
 from entidades.musica import Musica
 
-
 class Playlist:
-    def __init__(self, nome: str, descricao: str):
+    def __init__(self, nome: str, descricao: str = '', musicas: list[Musica] = None):
         self.__nome = nome
         self.__descricao = descricao
-        self.__musicas = [Musica]
+        if musicas is None:
+            musicas = []
+        self.__musicas = musicas
 
     @property
     def nome(self):
