@@ -1,6 +1,6 @@
-from pessoa import Pessoa
-from musica import Musica
-from album import Album
+from entidades.pessoa import Pessoa
+from entidades.musica import Musica
+from entidades.album import Album
 
 
 class Artista(Pessoa):
@@ -16,11 +16,3 @@ class Artista(Pessoa):
     @property
     def musicas(self):
         return self.__musicas
-
-# Exemplo de uso
-artista = Artista('Márcio', 'marcio@email.com', 'senha123', 123456789)
-print(artista.albuns[0].adicionar_musica(artista.musicas[0]))
-for e in artista.albuns[0].musicas:
-    print(e.nome)
-# print(artista.albuns[0].musicas.nome)
-print(artista.albuns[0].musicas[0].nome)
