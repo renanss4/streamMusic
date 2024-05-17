@@ -20,24 +20,24 @@ class TelaUsuario:
         print("\n")
         print("-------- CADASTRAR NOVO USUÁRIO ----------")
         nome = input("Nome: ")
-        identificador = input('Identificador: ')
+        username = input('username: ')
         email = input("Email: ")
         senha = input("Senha: ")
         telefone = input("Telefone: ")
-        return {"nome": nome, "identificador": identificador, "email": email, "senha": senha, "telefone": telefone}
+        return {"nome": nome, "username": username, "email": email, "senha": senha, "telefone": telefone}
 
     def mostrar_usuario(self, dados_usuario):
         print("\n")
         print("-------- DETALHES DO USUÁRIO ----------")
         print("Nome:", dados_usuario["nome"])
-        print("Identificador:", dados_usuario["identificador"])
+        print("Username:", dados_usuario["username"])
         print("Email:", dados_usuario["email"])
         print("Telefone:", dados_usuario["telefone"])
 
     def buscar_usuario(self):
         print("\n")
-        identificador = input('Identificador do usuário que deseja buscar: ')
-        return identificador
+        username = input('Username do usuário que deseja buscar: ')
+        return username
     
     def mostrar_mensagem(self, msg):
         print("\n")

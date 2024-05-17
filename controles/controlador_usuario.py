@@ -7,9 +7,9 @@ class ControladorUsuario:
         self.__tela_usuario = TelaUsuario()
         self.__controlador_sistema = controlador_sistema
 
-    def pega_usuario_pelo_identificador(self, identificador: str):
+    def pegar_usuario_pelo_username(self, username: str):
         for usuario in self.__usuarios:
-            if (usuario.identificador == identificador):
+            if (usuario.username == username):
                 return usuario
         return None
 
@@ -17,7 +17,7 @@ class ControladorUsuario:
         for usuario in self.__usuarios:
             self.__tela_usuario.mostrar_usuario({
                 "nome": usuario.nome,
-                "identificador": usuario.identificador,
+                "username": usuario.username,
                 "email": usuario.email,
                 "telefone": usuario.telefone
             })
@@ -26,7 +26,7 @@ class ControladorUsuario:
         dados_usuario = self.__tela_usuario.pegar_dados_usuario()
         usuario = Usuario(
             dados_usuario["nome"],
-            dados_usuario["identificador"],
+            dados_usuario["username"],
             dados_usuario["email"],
             dados_usuario["senha"],
             dados_usuario["telefone"]
@@ -35,13 +35,13 @@ class ControladorUsuario:
 
     def editar_usuario(self):
         self.listar_usuarios()
-        identificador_usuario = self.__tela_usuario.pegar_dados_usuario()
-        usuario = self.pega_usuario_pelo_identificador(identificador_usuario)
+        username_usuario = self.__tela_usuario.pegar_dados_usuario()
+        usuario = self.pegar_usuario_pelo_username(username_usuario)
 
         if (usuario is not None):
             novos_dados_usuario = self.__tela_usuario.pegar_dados_usuario()
             usuario.nome = novos_dados_usuario["nome"],
-            usuario.identificador = novos_dados_usuario["identificador"],
+            usuario.username = novos_dados_usuario["username"],
             usuario.email = novos_dados_usuario["email"],
             usuario.senha = novos_dados_usuario["senha"],
             usuario.telefone = novos_dados_usuario["telefone"]
@@ -51,14 +51,14 @@ class ControladorUsuario:
 
     def remover_usuario(self):
         self.listar_usuarios()
-        identificador_usuario = self.__tela_usuario.buscar_usuario()
-        usuario = self.pega_usuario_pelo_identificador(identificador_usuario)
+        username_usuario = self.__tela_usuario.buscar_usuario()
+        usuario = self.pegar_usuario_pelo_username(username_usuario)
 
         if(usuario is not None):
             self.__usuarios.remove(usuario)
             self.listar_usuarios()
         else:
-            self.__tela_usuario.mostrar_mensagem("ATENCAO: Usuário não existente")
+            self.__tela_usuario.mostrar_mensagem("ATENÇÃO: Usuário não existente")
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()

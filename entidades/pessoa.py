@@ -3,14 +3,13 @@ from entidades.playlist import Playlist
 
 class Pessoa(ABC):
     @abstractmethod
-    def __init__(self, nome: str, identificador: str, email: str, senha: str, telefone: int):
+    def __init__(self, nome: str, username: str, email: str, senha: str, telefone: int):
         self.__nome = nome
-        self.__identificador = identificador
+        self.__username = username
         self.__email = email
         self.__senha = senha
         self.__telefone = telefone    
         self.__playlists = [Playlist('Músicas Favoritas', 'Lista de músicas favoritas')]
-        self.__perfil = {"nome": nome, "email": email, "telefone": telefone}
         self.__artistas_seguidos = []
 
     @property
@@ -22,12 +21,12 @@ class Pessoa(ABC):
         self.__nome = nome
 
     @property
-    def identificador(self):
-        return self.__identificador
+    def username(self):
+        return self.__username
     
-    @identificador.setter
-    def identificador(self, identificador):
-        self.__identificador = identificador
+    @username.setter
+    def username(self, username):
+        self.__username = username
 
     @property
     def email(self):
