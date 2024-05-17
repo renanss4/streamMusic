@@ -5,6 +5,7 @@ class TelaSistema:
         print("# Escolha sua opção            #")
         print("#                              #")
         print("# 1 - Usuários                 #")
+        print("# 2 - Artistas                 #")
         print("# 0 - Encerrar                 #")
         print("################################")
 
