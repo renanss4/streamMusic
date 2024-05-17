@@ -4,8 +4,8 @@ from entidades.album import Album
 
 
 class Artista(Pessoa):
-    def __init__(self, nome: str, email: str, senha: str, telefone: int):
-        super().__init__(nome, email, senha, telefone)
+    def __init__(self, nome: str, username: str, email: str, telefone: int):
+        super().__init__(nome, username, email, telefone)
         self.__albuns = [Album(f'Mix do {nome}', f'Um mix do artista {nome}')]
         self.__musicas = [Musica()]
 
