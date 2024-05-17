@@ -6,6 +6,8 @@ class TelaSistema:
         print("#                              #")
         print("# 1 - Usuários                 #")
         print("# 2 - Artistas                 #")
+        print("# 3 - Gravadora                #")
+        print("# 4 - Contrato                 #")
         print("# 0 - Encerrar                 #")
         print("################################")
 
