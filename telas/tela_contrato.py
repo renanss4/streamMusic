@@ -33,6 +33,18 @@ class TelaContrato:
         print("\n")
         artista = input('Artista com o contrato que deseja buscar: ')
         return artista
+
+    def editar_contrato(self, nome_artista):
+        if nome_artista in self.__contratos:
+            contrato = self.__contratos[nome_artista]
+            novos_dados_contrato = self.__tela_contrato.editar_contrato()
+            novo_artista = novos_dados_contrato["artista"]
+            nova_gravadora = novos_dados_contrato["gravadora"]
+            contrato.artista = novo_artista
+            contrato.gravadora = nova_gravadora
+            self.__tela_contrato.mostrar_mensagem(f"Contrato atualizado com sucesso para o artista {contrato.artista.nome}.")
+        else:
+            self.__tela_contrato.mostrar_mensagem(f"Não foi encontrado nenhum contrato para o artista {nome_artista}.")
     
     def mostrar_mensagem(self, msg):
         print("\n")
