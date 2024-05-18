@@ -2,6 +2,7 @@ from telas.tela_artista import TelaArtista
 from entidades.artista import Artista
 from controles.controlador_musica import ControladorMusica
 from controles.controlador_album import ControladorAlbum
+from controles.controlador_playlist import ControladorPlaylist
 
 
 class ControladorArtista:
@@ -11,6 +12,7 @@ class ControladorArtista:
         self.__tela_artista = TelaArtista()
         self.__controlador_musicas = ControladorMusica(self)
         self.__controlador_albuns = ControladorAlbum(self)
+        self.__controlador_playlists = ControladorPlaylist(self)
         self.__controlador_sistema = controlador_sistema
 
     @property
@@ -20,6 +22,10 @@ class ControladorArtista:
     @property
     def controlador_album(self):
         return self.__controlador_albuns
+    
+    @property
+    def controlador_playlist(self):
+        return self.__controlador_playlists
 
     def pegar_artista_pelo_username(self, username: str):
         for artista in self.__artistas:
@@ -78,8 +84,11 @@ class ControladorArtista:
     def abrir_albuns(self):
         self.__controlador_albuns.abre_tela()
 
-    def cadastrar_albuns(self):
+    def abrir_albuns(self):
         self.__controlador_albuns.abre_tela()
+
+    def abrir_playlists(self):
+        self.__controlador_playlists.abre_tela()
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()
@@ -91,7 +100,8 @@ class ControladorArtista:
             3: self.listar_artistas,
             4: self.remover_artista,
             5: self.abrir_musicas,
-            # 6: self.abrir_albuns,
+            6: self.abrir_albuns,
+            7: self.abrir_playlists,
             0: self.retornar
         }
 

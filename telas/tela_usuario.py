@@ -9,7 +9,7 @@ class TelaUsuario:
         print("2 - Editar Usuário")
         print("3 - Listar Usuários")
         print("4 - Excluir Usuário")
-        # print("5 - Seguir Artista")
+        print("5 - Página de Playlists")
         # print("6 - Deixar de Seguir Artista")
         # print("7 - Mostrar Artistas Seguidos")
         print("0 - Retornar")

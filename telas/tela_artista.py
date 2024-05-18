@@ -9,7 +9,8 @@ class TelaArtista:
         print("3 - Listar Artistas")
         print("4 - Excluir Artista")
         print("5 - Página de Músicas")
-        # print("6 - Página de Álbuns")
+        print("6 - Página de Álbuns")
+        print("7 - Página de Playlists")
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opção: "))

@@ -1,10 +1,12 @@
 from telas.tela_usuario import TelaUsuario
 from entidades.usuario import Usuario
+from controles.controlador_playlist import ControladorPlaylist
 
 class ControladorUsuario:
     def __init__(self, controlador_sistema):
         self.__usuarios = []
         self.__tela_usuario = TelaUsuario()
+        self.__controlador_playlists = ControladorPlaylist(self)
         self.__controlador_sistema = controlador_sistema
 
     def pegar_usuario_pelo_username(self, username: str):
@@ -58,6 +60,9 @@ class ControladorUsuario:
         else:
             self.__tela_usuario.mostrar_mensagem("ATENÇÃO: Usuário não existente")
 
+    def abrir_playlists(self):
+        self.__controlador_playlists.abre_tela()
+
     # def seguir_artista(self):
     #     self.listar_usuarios()
     #     username_usuario = self.__tela_usuario.buscar_usuario()
@@ -102,7 +107,7 @@ class ControladorUsuario:
             2: self.editar_usuario,
             3: self.listar_usuarios,
             4: self.remover_usuario,
-            # 5: self.seguir_artista,
+            5: self.abrir_playlists,
             # 6: self.deixar_de_seguir_artista,
             # 7: self.mostrar_artistas_seguidos,
             0: self.retornar
