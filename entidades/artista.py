@@ -1,11 +1,12 @@
 from entidades.pessoa import Pessoa
 from entidades.musica import Musica
 from entidades.album import Album
+from datetime import date
 
 
 class Artista(Pessoa):
-    def __init__(self, nome: str, username: str, email: str, telefone: int):
-        super().__init__(nome, username, email, telefone)
+    def __init__(self, nome: str, email: str, telefone: int, data_nascimento: date):
+        super().__init__(nome, email, telefone, data_nascimento)
         self.__albuns = [Album(f'Mix do {nome}', f'Um mix do artista {nome}')]
         self.__musicas = [Musica()]
 

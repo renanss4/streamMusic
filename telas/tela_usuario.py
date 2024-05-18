@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class TelaUsuario:
 
     def imprimir_opcoes(self):
@@ -25,24 +27,37 @@ class TelaUsuario:
         print('\n')
         print("-------- CADASTRAR NOVO USUÁRIO ----------")
         nome = input("Nome: ")
-        username = input('Username: ')
         email = input("Email: ")
         telefone = input("Telefone: ")
-        return {"nome": nome, "username": username, "email": email, "telefone": telefone}
+        
+        while True:
+            try:
+                data_nascimento = input('Data de Nascimento (YYYY-MM-DD): ')
+                data_nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d').date()
+                break
+            except ValueError:
+                print("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
+
+        return {
+            "nome": nome,
+            "email": email,
+            "telefone": telefone,
+            "data_nascimento": data_nascimento
+        }
 
     def mostrar_usuarios(self, usuarios_dados):
         print('\n')
         print('-------- DETALHES DOS USUÁRIOS ----------')
         for dados_usuario in usuarios_dados:
             print('Nome:', dados_usuario['nome'])
-            print('Username:', dados_usuario['username'])
             print('Email:', dados_usuario['email'])
             print('Telefone:', dados_usuario['telefone'])
+            print('Data de Nascimento:', dados_usuario['data_nascimento'])
             print('--------------------------------')
 
     def buscar_usuario(self):
-        username = input('Username do usuário que deseja buscar: ')
-        return username
+        nome = input('Nome do usuário que deseja buscar: ').strip()
+        return nome
 
     def mostrar_mensagem(self, msg):
         print('\n' + msg + '\n')

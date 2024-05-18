@@ -1,13 +1,14 @@
 from abc import abstractmethod, ABC
 from entidades.playlist import Playlist
+from datetime import date
 
 class Pessoa(ABC):
     @abstractmethod
-    def __init__(self, nome: str, username: str, email: str, telefone: int):
+    def __init__(self, nome: str, email: str, telefone: int, data_nascimento: date):
         self.__nome = nome
-        self.__username = username
         self.__email = email
-        self.__telefone = telefone    
+        self.__telefone = telefone
+        self.__data_nascimento = data_nascimento
         self.__playlists = [Playlist('Músicas Favoritas', 'Lista de músicas favoritas')]
         self.__artistas_seguidos = []
 
@@ -35,14 +36,6 @@ class Pessoa(ABC):
     def email(self, email):
         self.__email = email
 
-    # @property
-    # def senha(self):
-    #     return self.__senha
-    
-    # @senha.setter
-    # def senha(self, senha):
-    #     self.__senha = senha
-
     @property
     def telefone(self):
         return self.__telefone
@@ -51,13 +44,13 @@ class Pessoa(ABC):
     def telefone(self, telefone):
         self.__telefone = telefone
 
-    # @property
-    # def data_nascimento(self):
-    #     return self.__data_nascimento
+    @property
+    def data_nascimento(self):
+        return self.__data_nascimento
 
-    # @data_nascimento.setter
-    # def data_nascimento(self, data_nascimento):
-    #     self.__data_nascimento = data_nascimento
+    @data_nascimento.setter
+    def data_nascimento(self, data_nascimento):
+        self.__data_nascimento = data_nascimento
 
     @property
     def playlists(self):

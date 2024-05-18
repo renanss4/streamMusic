@@ -17,16 +17,18 @@ class ControladorArtista:
         self.__controlador_sistema = controlador_sistema
 
     # Métodos auxiliares de busca e listagem de artistas
-    def pegar_artista_pelo_username(self, username: str):
+    def pegar_artista_pelo_nome(self, nome: str):
         for artista in self.__artistas:
-            if artista.username == username:
+            if artista.nome == nome:
                 return artista
         return None
 
     def listar_artistas(self):
         if self.__artistas:
-            artistas_dados = [{'nome': artista.nome, 'username': artista.username,
-                               'email': artista.email, 'telefone': artista.telefone}
+            artistas_dados = [{'nome': artista.nome,
+                               'email': artista.email,
+                               'telefone': artista.telefone,
+                               'data_nascimento': artista.data_nascimento}
                               for artista in self.__artistas]
             self.__tela_artista.mostrar_artistas(artistas_dados)
         else:
@@ -35,14 +37,14 @@ class ControladorArtista:
     # Métodos de cadastro, edição e remoção de artistas
     def cadastrar_artista(self):
         dados_artista = self.__tela_artista.pegar_dados_artista()
-        if self.pegar_artista_pelo_username(dados_artista['username']):
+        if self.pegar_artista_pelo_nome(dados_artista['nome']):
             self.__tela_artista.mostrar_mensagem("Artista já cadastrado!")
         else:
             artista = Artista(
                 dados_artista['nome'],
-                dados_artista['username'],
                 dados_artista['email'],
-                dados_artista['telefone']
+                dados_artista['telefone'],
+                dados_artista['data_nascimento']
             )
             self.__artistas.append(artista)
             self.__tela_artista.mostrar_mensagem("Artista cadastrado com sucesso!")
@@ -53,15 +55,15 @@ class ControladorArtista:
             return
 
         self.listar_artistas()
-        username_artista = self.__tela_artista.buscar_artista()
-        artista = self.pegar_artista_pelo_username(username_artista)
+        nome_artista = self.__tela_artista.buscar_artista()
+        artista = self.pegar_artista_pelo_nome(nome_artista)
 
         if artista is not None:
             novos_dados_artista = self.__tela_artista.pegar_dados_artista()
             artista.nome = novos_dados_artista['nome']
-            artista.username = novos_dados_artista['username']
             artista.email = novos_dados_artista['email']
             artista.telefone = novos_dados_artista['telefone']
+            artista.data_nascimento = novos_dados_artista['data_nascimento']
             self.__tela_artista.mostrar_mensagem("Artista editado com sucesso!")
         else:
             self.__tela_artista.mostrar_mensagem('ATENÇÃO: Artista não existente')
@@ -72,8 +74,8 @@ class ControladorArtista:
             return
 
         self.listar_artistas()
-        username_artista = self.__tela_artista.buscar_artista()
-        artista = self.pegar_artista_pelo_username(username_artista)
+        nome_artista = self.__tela_artista.buscar_artista()
+        artista = self.pegar_artista_pelo_nome(nome_artista)
 
         if artista is not None:
             self.__artistas.remove(artista)

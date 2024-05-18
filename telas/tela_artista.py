@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class TelaArtista:
 
     def imprimir_opcoes(self):
@@ -28,19 +31,32 @@ class TelaArtista:
         print("\n")
         print("-------- CADASTRAR NOVO ARTISTA ----------")
         nome = input("Nome: ").strip()
-        username = input("Username: ").strip()
         email = input("Email: ").strip()
         telefone = input("Telefone: ").strip()
-        return {"nome": nome, 'username': username, "email": email, "telefone": telefone}
+
+        while True:
+            try:
+                data_nascimento = input('Data de Nascimento (YYYY-MM-DD): ')
+                data_nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d').date()
+                break
+            except ValueError:
+                print("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
+
+        return {
+            "nome": nome,
+            "email": email,
+            "telefone": telefone,
+            "data_nascimento": data_nascimento
+        }
 
     def mostrar_artistas(self, artistas_dados):
         print("\n")
         print("-------- DETALHES DO ARTISTA ----------")
         for dados_artista in artistas_dados:
             print("Nome:", dados_artista["nome"])
-            print("Username:", dados_artista["username"])
             print("Email:", dados_artista["email"])
             print("Telefone:", dados_artista["telefone"])
+            print('Data de Nascimento:', dados_artista['data_nascimento'])
             print('--------------------------------')
 
     def buscar_artista(self):
@@ -49,21 +65,4 @@ class TelaArtista:
         return nome
     
     def mostrar_mensagem(self, msg):
-        print("\n")
-        print(msg)
-
-    def pegar_dados_musica(self):
-        print("\n")
-        print("-------- CADASTRAR NOVA MÚSICA ----------")
-        nome = input("Nome da música: ").strip()
-        letra = input("Letra da música: ").strip()
-        return {"nome": nome, "letra": letra}
-
-    def mostrar_musicas(self, musicas):
-        print("\n")
-        print("-------- MÚSICAS DO ARTISTA ----------")
-        if musicas:
-            for musica in musicas:
-                print(f"Nome: {musica['nome']}, Letra: {musica['letra']}")
-        else:
-            print("Nenhuma música cadastrada.")
+        print('\n' + msg + '\n')

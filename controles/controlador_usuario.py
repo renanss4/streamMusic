@@ -9,16 +9,18 @@ class ControladorUsuario:
         self.__controlador_playlists = ControladorPlaylist(self)
         self.__controlador_sistema = controlador_sistema
 
-    def pegar_usuario_pelo_username(self, username: str):
+    def pegar_usuario_pelo_nome(self, nome: str):
         for usuario in self.__usuarios:
-            if usuario.username == username:
+            if usuario.nome == nome:
                 return usuario
         return None
 
     def listar_usuarios(self):
         if self.__usuarios:
-            usuarios_dados = [{'nome': usuario.nome, 'username': usuario.username,
-                               'email': usuario.email, 'telefone': usuario.telefone}
+            usuarios_dados = [{'nome': usuario.nome,
+                               'email': usuario.email,
+                               'telefone': usuario.telefone,
+                               'data_nascimento': usuario.data_nascimento}
                               for usuario in self.__usuarios]
             self.__tela_usuario.mostrar_usuarios(usuarios_dados)
         else:
@@ -26,14 +28,14 @@ class ControladorUsuario:
 
     def cadastrar_usuario(self):
         dados_usuario = self.__tela_usuario.pegar_dados_usuario()
-        if self.pegar_usuario_pelo_username(dados_usuario['username']):
+        if self.pegar_usuario_pelo_nome(dados_usuario['nome']):
             self.__tela_usuario.mostrar_mensagem("Usuário já cadastrado!")
         else:
             usuario = Usuario(
                 dados_usuario['nome'],
-                dados_usuario['username'],
                 dados_usuario['email'],
-                dados_usuario['telefone']
+                dados_usuario['telefone'],
+                dados_usuario['data_nascimento']
             )
             self.__usuarios.append(usuario)
             self.__tela_usuario.mostrar_mensagem("Usuário cadastrado com sucesso!")
@@ -44,15 +46,15 @@ class ControladorUsuario:
             return
 
         self.listar_usuarios()
-        username_usuario = self.__tela_usuario.buscar_usuario()
-        usuario = self.pegar_usuario_pelo_username(username_usuario)
+        nome_usuario = self.__tela_usuario.buscar_usuario()
+        usuario = self.pegar_usuario_pelo_nome(nome_usuario)
 
         if usuario is not None:
             novos_dados_usuario = self.__tela_usuario.pegar_dados_usuario()
             usuario.nome = novos_dados_usuario['nome']
-            usuario.username = novos_dados_usuario['username']
             usuario.email = novos_dados_usuario['email']
             usuario.telefone = novos_dados_usuario['telefone']
+            usuario.data_nascimento = novos_dados_usuario['data_nascimento']
             self.__tela_usuario.mostrar_mensagem("Usuário editado com sucesso!")
         else:
             self.__tela_usuario.mostrar_mensagem('ATENÇÃO: Usuário não existente')
@@ -63,8 +65,8 @@ class ControladorUsuario:
             return
 
         self.listar_usuarios()
-        username_usuario = self.__tela_usuario.buscar_usuario()
-        usuario = self.pegar_usuario_pelo_username(username_usuario)
+        nome_usuario = self.__tela_usuario.buscar_usuario()
+        usuario = self.pegar_usuario_pelo_nome(nome_usuario)
 
         if usuario is not None:
             self.__usuarios.remove(usuario)
