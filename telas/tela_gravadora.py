@@ -21,9 +21,8 @@ class TelaGravadora:
         print("-------- CADASTRAR NOVA GRAVADORA ----------")
         nome = input("Nome: ")
         email = input("Email: ")
-        senha = input("Senha: ")
         telefone = input("Telefone: ")
-        return {"nome": nome, "email": email, "senha": senha, "telefone": telefone}
+        return {"nome": nome, "email": email, "telefone": telefone}
 
     def mostrar_gravadora(self, dados_gravadora):
         print("\n")
