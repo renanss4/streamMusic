@@ -1,7 +1,6 @@
 class TelaMusica:
     def imprimir_opcoes(self):
-        print('\n')
-        print('---------- MÚSICA ----------')
+        print('\n---------- MÚSICA ----------')
         print("Escolha a opção:")
         print("1 - Cadastrar Música")
         print("2 - Listar Músicas")
@@ -20,15 +19,13 @@ class TelaMusica:
                 print("Entrada inválida! Digite um número.")
 
     def pegar_dados_musica(self):
-        print('\n')
-        print("-------- CADASTRAR/EDITAR MÚSICA ----------")
-        nome = input("Nome: ").strip()
-        letra = input("Letra: ").strip()
+        print('\n-------- CADASTRAR/EDITAR MÚSICA ----------')
+        nome = input("Nome da música: ").strip()
+        letra = input("Letra da música: ").strip()
         return {'nome': nome, 'letra': letra}
 
     def mostrar_musicas(self, musicas_dados):
-        print('\n')
-        print('-------- DETALHES DAS MÚSICAS CADASTRADAS ----------')
+        print('\n-------- DETALHES DAS MÚSICAS CADASTRADAS ----------')
         for dados_musica in musicas_dados:
             print('Nome:', dados_musica['nome'])
             print('Letra:', dados_musica['letra'])

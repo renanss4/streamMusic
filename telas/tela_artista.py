@@ -4,8 +4,7 @@ from datetime import datetime
 class TelaArtista:
 
     def imprimir_opcoes(self):
-        print('\n')
-        print('---------- ARTISTA ----------')
+        print('\n---------- ARTISTA ----------')
         print("Escolha a opção:")
         print("1 - Cadastrar Artista")
         print("2 - Listar Artistas")
@@ -28,8 +27,7 @@ class TelaArtista:
                 print("Entrada inválida! Digite um número.")
 
     def pegar_dados_artista(self):
-        print("\n")
-        print("-------- CADASTRAR NOVO ARTISTA ----------")
+        print("\n-------- CADASTRAR NOVO ARTISTA ----------")
         nome = input("Nome: ").strip()
         email = input("Email: ").strip()
         telefone = input("Telefone: ").strip()
@@ -50,19 +48,13 @@ class TelaArtista:
         }
 
     def mostrar_artistas(self, artistas_dados):
-        print("\n")
-        print("-------- DETALHES DO ARTISTA ----------")
+        print("\n-------- DETALHES DO ARTISTA ----------")
         for dados_artista in artistas_dados:
             print("Nome:", dados_artista["nome"])
             print("Email:", dados_artista["email"])
             print("Telefone:", dados_artista["telefone"])
             print('Data de Nascimento:', dados_artista['data_nascimento'])
             print('--------------------------------')
-
-    def buscar_artista(self):
-        print("\n")
-        nome = input('Nome do artista que deseja buscar: ').strip()
-        return nome
-    
+   
     def mostrar_mensagem(self, msg):
         print('\n' + msg + '\n')
