@@ -11,7 +11,7 @@ class TelaContrato:
         print("3 - Excluir Contrato")
         print("4 - Buscar Contratos por Artista")
         print("5 - Buscar Contratos por Gravadora")
-        print("6 - Buscar Contratos pelo Número")
+        print("6 - Buscar Contrato por Número")
         print("0 - Retornar")
 
         while True:
@@ -32,28 +32,25 @@ class TelaContrato:
         gravadora = input('Gravadora: ')
         
         while True:
-            data_inicio_str = input('Data de Início (YYYY-MM-DD): ')
             try:
-                data_inicio = datetime.strptime(data_inicio_str, '%Y-%m-%d').date()
+                data_inicio = input('Data de Início (YYYY-MM-DD): ')
+                data_inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
                 break
             except ValueError:
-                print("Data inválida! Por favor, use o formato YYYY-MM-DD.")
+                print("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
         
         while True:
-            data_fim_str = input('Data de Fim (YYYY-MM-DD): ')
             try:
-                data_fim = datetime.strptime(data_fim_str, '%Y-%m-%d').date()
+                data_fim = input('Data de Fim (YYYY-MM-DD): ')
+                data_fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
+                if data_inicio > data_fim:
+                    print("A data de início não pode ser maior que a data de fim!")
+                    continue
                 break
             except ValueError:
-                print("Data inválida! Por favor, use o formato YYYY-MM-DD.")
+                print("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
         
-        return {
-            'numero': numero, 
-            "artista": artista, 
-            "gravadora": gravadora, 
-            "data_inicio": data_inicio, 
-            "data_fim": data_fim
-        }
+        return {'numero': numero, "artista": artista, "gravadora": gravadora, 'data_inicio': data_inicio, 'data_fim': data_fim}
 
     def mostrar_contratos(self, contratos_dados):
         print('\n')
@@ -67,16 +64,20 @@ class TelaContrato:
             print('--------------------------------')
 
     def buscar_por_artista(self):
-        artista = input('Nome do artista: ')
+        artista = input('Nome do artista com contrato que deseja buscar: ')
         return artista
 
     def buscar_por_gravadora(self):
-        gravadora = input('Nome da gravadora: ')
+        gravadora = input('Nome da gravadora com contrato que deseja buscar: ')
         return gravadora
 
     def buscar_por_numero(self):
-        numero = int(input('Número do contrato que deseja buscar: '))
-        return numero
+        while True:
+            try:
+                numero = int(input('Número do contrato que deseja buscar: '))
+                return numero
+            except ValueError:
+                print("Entrada inválida! Por favor, insira um número.")
 
     def mostrar_mensagem(self, msg):
         print('\n' + msg + '\n')

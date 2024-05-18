@@ -36,6 +36,10 @@ class ControladorContrato:
         data_inicio = dados_contrato['data_inicio']
         data_fim = dados_contrato['data_fim']
 
+        if data_inicio > data_fim:
+            self.__tela_contrato.mostrar_mensagem("A data de início não pode ser maior que a data de fim!")
+            return
+
         for contrato in self.__contratos:
             if contrato.numero == numero and contrato.artista == artista and contrato.gravadora == gravadora:
                 self.__tela_contrato.mostrar_mensagem("Contrato já existente!")
