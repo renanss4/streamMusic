@@ -2,11 +2,10 @@ from datetime import date
 
 
 class Gravadora:
-    def __init__(self, nome: str, email: str, senha: str, telefone: str):
+    def __init__(self, nome: str, email: str, telefone: str):
         self.__nome = nome
         # self.__data_fundacao = data_fundacao
         self.__email = email
-        self.__senha = senha
         self.__telefone = telefone
 
     @property
@@ -33,13 +32,13 @@ class Gravadora:
     def email(self, email):
         self.__email = email
 
-    @property
-    def senha(self):
-        return self.__senha
+    # @property
+    # def senha(self):
+    #     return self.__senha
 
-    @senha.setter
-    def senha(self, senha):
-        self.__senha = senha
+    # @senha.setter
+    # def senha(self, senha):
+    #     self.__senha = senha
 
     @property
     def telefone(self):

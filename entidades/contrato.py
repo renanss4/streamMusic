@@ -4,11 +4,20 @@ from datetime import date
 
 
 class Contrato:
-    def __init__(self, artista: Artista, gravadora: Gravadora):
+    def __init__(self, numero: int, artista: Artista, gravadora: Gravadora):
+        self.__numero = numero
         self.__artista = artista
         self.__gravadora = gravadora
         # self.__data_inicio = data_inicio
         # self.__data_fim = data_fim
+
+    @property
+    def numero(self):
+        return self.__numero
+    
+    @numero.setter
+    def numero(self, numero):
+        self.__numero = numero
 
     @property
     def artista(self):
