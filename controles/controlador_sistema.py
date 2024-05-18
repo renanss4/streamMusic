@@ -14,40 +14,37 @@ class ControladorSistema:
         self.__controlador_gravadoras = ControladorGravadora(self)
         self.__controlador_contratos = ControladorContrato(self)
 
-    @property
-    def controlador_usuario(self):
-        return self.__controlador_usuarios
- 
     def abrir_usuarios(self):
-        # Chama o controlador de Usuários
         self.__controlador_usuarios.abre_tela()
 
     def abrir_artistas(self):
         self.__controlador_artistas.abre_tela()
 
-    def abrir_gravadora(self):
+    def abrir_gravadoras(self):
         self.__controlador_gravadoras.abre_tela()
 
-    def abrir_contrato(self):
+    def abrir_contratos(self):
         self.__controlador_contratos.abre_tela()
-   
-    def inicializa_sistema(self):
+
+    def inicializar_sistema(self):
         self.abre_tela()
 
-    def encerra_sistema(self):
+    def encerrar_sistema(self):
         exit(0)
 
     def abre_tela(self):
-        lista_opcoes = {
-            1: self.abrir_usuarios,
-            2: self.abrir_artistas,
-            3: self.abrir_gravadora,
-            4: self.abrir_contrato,
-            0: self.encerra_sistema
-        }
-
-        rodando = True
-        while rodando:
-            opcao_escolhida = self.__tela_sistema.imprimir_opcoes()
-            funcao_escolhida = lista_opcoes[opcao_escolhida]
-            funcao_escolhida()
+        while True:
+            opcao = self.__tela_sistema.imprimir_opcoes()
+            if opcao == 00:
+                self.encerrar_sistema()
+                break
+            elif opcao == 1:
+                self.abrir_usuarios()
+            elif opcao == 2:
+                self.abrir_artistas()
+            elif opcao == 3:
+                self.abrir_gravadoras()
+            elif opcao == 4:
+                self.abrir_contratos()
+            else:
+                self.__tela_sistema.mostrar_mensagem('Opção Inválida!')

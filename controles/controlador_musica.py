@@ -14,41 +14,50 @@ class ControladorMusica:
         return None
 
     def listar_musicas(self):
-        for musica in self.__musicas:
-            self.__tela_musica.mostrar_musica({
-                'nome': musica.nome,
-                'letra': musica.letra
-            })
+        if self.__musicas:
+            musicas_dados = [{'nome': musica.nome, 'letra': musica.letra} for musica in self.__musicas]
+            self.__tela_musica.mostrar_musicas(musicas_dados)
+        else:
+            self.__tela_musica.mostrar_mensagem("Nenhuma música cadastrada.")
 
     def cadastrar_musica(self):
         dados_musica = self.__tela_musica.pegar_dados_musica()
-        musica = Musica(
-            dados_musica['nome'],
-            dados_musica['letra']
-        )
-        self.__musicas.append(musica)
+        if self.pegar_musica_pelo_nome(dados_musica['nome']):
+            self.__tela_musica.mostrar_mensagem("Música já existente!")
+        else:
+            musica = Musica(dados_musica['nome'], dados_musica['letra'])
+            self.__musicas.append(musica)
+            self.__tela_musica.mostrar_mensagem("Música cadastrada com sucesso!")
 
     def editar_musica(self):
+        if not self.__musicas:
+            self.__tela_musica.mostrar_mensagem("Nenhuma música cadastrada.")
+            return
+
         self.listar_musicas()
-        nome_musica = self.__tela_musica.pegar_dados_musica()
+        nome_musica = self.__tela_musica.buscar_musica()
         musica = self.pegar_musica_pelo_nome(nome_musica)
 
         if musica is not None:
             novos_dados_musica = self.__tela_musica.pegar_dados_musica()
-            musica.nome = novos_dados_musica['nome'],
+            musica.nome = novos_dados_musica['nome']
             musica.letra = novos_dados_musica['letra']
-            self.listar_musicas()
+            self.__tela_musica.mostrar_mensagem("Música editada com sucesso!")
         else:
             self.__tela_musica.mostrar_mensagem('ATENÇÃO: Música não existente')
 
     def remover_musica(self):
+        if not self.__musicas:
+            self.__tela_musica.mostrar_mensagem("Nenhuma música cadastrada.")
+            return
+
         self.listar_musicas()
-        nome_musica = self.__tela_musica.pegar_dados_musica()
+        nome_musica = self.__tela_musica.buscar_musica()
         musica = self.pegar_musica_pelo_nome(nome_musica)
 
         if musica is not None:
             self.__musicas.remove(musica)
-            self.listar_musicas()
+            self.__tela_musica.mostrar_mensagem("Música removida com sucesso!")
         else:
             self.__tela_musica.mostrar_mensagem('ATENÇÃO: Música não existente')
 
@@ -56,18 +65,18 @@ class ControladorMusica:
         self.__controlador_artista.abre_tela()
 
     def abre_tela(self):
-        lista_opcoes = {
-            1: self.cadastrar_musica,
-            2: self.editar_musica,
-            3: self.listar_musicas,
-            4: self.remover_musica,
-            0: self.retornar
-        }
-
-        rodando = True
-        while rodando:
+        while True:
             opcao = self.__tela_musica.imprimir_opcoes()
-            if opcao in lista_opcoes:
-                lista_opcoes[opcao]()
+            if opcao == 0:
+                self.retornar()
+                break
+            elif opcao == 1:
+                self.cadastrar_musica()
+            elif opcao == 2:
+                self.listar_musicas()
+            elif opcao == 3:
+                self.editar_musica()
+            elif opcao == 4:
+                self.remover_musica()
             else:
                 self.__tela_musica.mostrar_mensagem('Opção Inválida!')

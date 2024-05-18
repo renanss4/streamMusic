@@ -1,58 +1,48 @@
 class TelaUsuario:
 
-    # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
     def imprimir_opcoes(self):
-        print("\n")
-        print('----------USUÁRIO----------')
-        print("Escolha a opção")
+        print('\n')
+        print('---------- USUÁRIO ----------')
+        print("Escolha a opção:")
         print("1 - Cadastrar Usuário")
-        print("2 - Editar Usuário")
-        print("3 - Listar Usuários")
+        print("2 - Listar Usuários")
+        print("3 - Editar Usuário")
         print("4 - Excluir Usuário")
         print("5 - Página de Playlists")
-        # print("6 - Deixar de Seguir Artista")
-        # print("7 - Mostrar Artistas Seguidos")
         print("0 - Retornar")
 
-        opcao = int(input("Escolha a opção: "))
-        return opcao
-    
+        while True:
+            try:
+                opcao = int(input("Escolha a opção: "))
+                if 0 <= opcao <= 5:
+                    return opcao
+                else:
+                    print("Opção inválida! Escolha uma opção entre 0 e 5.")
+            except ValueError:
+                print("Entrada inválida! Digite um número.")
+
     def pegar_dados_usuario(self):
-        print("\n")
+        print('\n')
         print("-------- CADASTRAR NOVO USUÁRIO ----------")
         nome = input("Nome: ")
-        username = input('username: ')
+        username = input('Username: ')
         email = input("Email: ")
         telefone = input("Telefone: ")
         return {"nome": nome, "username": username, "email": email, "telefone": telefone}
 
-    def mostrar_usuario(self, dados_usuario):
-        print("\n")
-        print("-------- DETALHES DO USUÁRIO ----------")
-        print("Nome:", dados_usuario["nome"])
-        print("Username:", dados_usuario["username"])
-        print("Email:", dados_usuario["email"])
-        print("Telefone:", dados_usuario["telefone"])
+    def mostrar_usuarios(self, usuarios_dados):
+        print('\n')
+        print('-------- DETALHES DOS USUÁRIOS ----------')
+        for dados_usuario in usuarios_dados:
+            print('Nome:', dados_usuario['nome'])
+            print('Username:', dados_usuario['username'])
+            print('Email:', dados_usuario['email'])
+            print('Telefone:', dados_usuario['telefone'])
+            print('--------------------------------')
 
     def buscar_usuario(self):
-        print("\n")
         username = input('Username do usuário que deseja buscar: ')
         return username
-    
+
     def mostrar_mensagem(self, msg):
-        print("\n")
-        print(msg)
-
-    def pegar_artista(self):
-        print("\n")
-        artista = input("Nome do artista: ")
-        return artista
-
-    def mostrar_artistas_seguidos(self, artistas_seguidos):
-        print("\n")
-        print("-------- ARTISTAS SEGUIDOS ----------")
-        if artistas_seguidos:
-            for artista in artistas_seguidos:
-                print(artista)
-        else:
-            print("Nenhum artista seguido.")
+        print('\n' + msg + '\n')

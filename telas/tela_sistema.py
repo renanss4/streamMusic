@@ -11,5 +11,15 @@ class TelaSistema:
         print("# 0 - Encerrar                 #")
         print("################################")
 
-        opcao = int(input("Escolha a opção: "))
-        return opcao
+        while True:
+            try:
+                opcao = int(input("Escolha a opção: "))
+                if 0 <= opcao <= 4:
+                    return opcao
+                else:
+                    print('\n' + 'Opção inválida! Escolha uma opção entre 0 e 4.' + '\n')
+            except ValueError:
+                print('\n' + "Entrada inválida! Digite um número." + '\n')
+    
+    def mostrar_mensagem(self, msg):
+        print('\n' + msg + '\n')

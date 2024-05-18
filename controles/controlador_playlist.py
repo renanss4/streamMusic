@@ -15,11 +15,11 @@ class ControladorPlaylist:
         return None
 
     def listar_playlists(self):
-        for playlist in self.__playlists:
-            self.__tela_playlist.mostrar_playlist({
-                'nome': playlist.nome,
-                'descricao': playlist.descricao
-            })
+        if self.__playlists:
+            playlists_dados = [{'nome': playlist.nome, 'descricao': playlist.descricao} for playlist in self.__playlists]
+            self.__tela_playlist.mostrar_playlists(playlists_dados)
+        else:
+            self.__tela_playlist.mostrar_mensagem("Nenhuma playlist cadastrada.")
 
     def cadastrar_playlist(self):
         dados_playlist = self.__tela_playlist.pegar_dados_playlist()
@@ -28,21 +28,31 @@ class ControladorPlaylist:
             dados_playlist['descricao']
         )
         self.__playlists.append(playlist)
+        self.__tela_playlist.mostrar_mensagem("Playlist cadastrada com sucesso!")
 
     def editar_playlist(self):
+        if not self.__playlists:
+            self.__tela_playlist.mostrar_mensagem("Nenhuma playlist cadastrada.")
+            return
+
         self.listar_playlists()
         nome_playlist = self.__tela_playlist.pegar_dados_playlist()
         playlist = self.pegar_playlist_pelo_nome(nome_playlist)
 
         if playlist is not None:
             novos_dados_playlist = self.__tela_playlist.pegar_dados_playlist()
-            playlist.nome = novos_dados_playlist['nome'],
+            playlist.nome = novos_dados_playlist['nome']
             playlist.descricao = novos_dados_playlist['descricao']
             self.listar_playlists()
+            self.__tela_playlist.mostrar_mensagem("Playlist editada com sucesso!")
         else:
             self.__tela_playlist.mostrar_mensagem('ATENÇÃO: Playlist não existente')
 
     def remover_playlist(self):
+        if not self.__playlists:
+            self.__tela_playlist.mostrar_mensagem("Nenhuma playlist cadastrada.")
+            return
+
         self.listar_playlists()
         nome_playlist = self.__tela_playlist.pegar_dados_playlist()
         playlist = self.pegar_playlist_pelo_nome(nome_playlist)
@@ -50,25 +60,26 @@ class ControladorPlaylist:
         if playlist is not None:
             self.__playlists.remove(playlist)
             self.listar_playlists()
+            self.__tela_playlist.mostrar_mensagem("Playlist removida com sucesso!")
         else:
-            self.__tela_playlist.mostrar_mensagem('ATENÇÃO: Playlist não existente')
+            self.__tela_playlist.mostrar_mensagem("ATENÇÃO: Playlist não existente")
 
     def retornar(self):
         self.__controlador_artista.abre_tela()
 
     def abre_tela(self):
-        lista_opcoes = {
-            1: self.cadastrar_playlist,
-            2: self.editar_playlist,
-            3: self.listar_playlists,
-            4: self.remover_playlist,
-            0: self.retornar
-        }
-
-        rodando = True
-        while rodando:
+        while True:
             opcao = self.__tela_playlist.imprimir_opcoes()
-            if opcao in lista_opcoes:
-                lista_opcoes[opcao]()
+            if opcao == 0:
+                self.retornar()
+                break
+            elif opcao == 1:
+                self.cadastrar_playlist()
+            elif opcao == 2:
+                self.listar_playlists()
+            elif opcao == 3:
+                self.editar_playlist()
+            elif opcao == 4:
+                self.remover_playlist()
             else:
                 self.__tela_playlist.mostrar_mensagem('Opção Inválida!')

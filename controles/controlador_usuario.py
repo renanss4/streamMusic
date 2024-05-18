@@ -11,112 +11,88 @@ class ControladorUsuario:
 
     def pegar_usuario_pelo_username(self, username: str):
         for usuario in self.__usuarios:
-            if (usuario.username == username):
+            if usuario.username == username:
                 return usuario
         return None
 
     def listar_usuarios(self):
-        for usuario in self.__usuarios:
-            self.__tela_usuario.mostrar_usuario({
-                "nome": usuario.nome,
-                "username": usuario.username,
-                "email": usuario.email,
-                "telefone": usuario.telefone
-            })
+        if self.__usuarios:
+            usuarios_dados = [{'nome': usuario.nome, 'username': usuario.username,
+                               'email': usuario.email, 'telefone': usuario.telefone}
+                              for usuario in self.__usuarios]
+            self.__tela_usuario.mostrar_usuarios(usuarios_dados)
+        else:
+            self.__tela_usuario.mostrar_mensagem("Nenhum usuário cadastrado.")
 
     def cadastrar_usuario(self):
         dados_usuario = self.__tela_usuario.pegar_dados_usuario()
-        usuario = Usuario(
-            dados_usuario["nome"],
-            dados_usuario["username"],
-            dados_usuario["email"],
-            dados_usuario["telefone"]
-        )
-        self.__usuarios.append(usuario)
+        if self.pegar_usuario_pelo_username(dados_usuario['username']):
+            self.__tela_usuario.mostrar_mensagem("Usuário já cadastrado!")
+        else:
+            usuario = Usuario(
+                dados_usuario['nome'],
+                dados_usuario['username'],
+                dados_usuario['email'],
+                dados_usuario['telefone']
+            )
+            self.__usuarios.append(usuario)
+            self.__tela_usuario.mostrar_mensagem("Usuário cadastrado com sucesso!")
 
     def editar_usuario(self):
-        self.listar_usuarios()
-        username_usuario = self.__tela_usuario.pegar_dados_usuario()
-        usuario = self.pegar_usuario_pelo_username(username_usuario)
+        if not self.__usuarios:
+            self.__tela_usuario.mostrar_mensagem("Nenhum usuário cadastrado.")
+            return
 
-        if (usuario is not None):
-            novos_dados_usuario = self.__tela_usuario.pegar_dados_usuario()
-            usuario.nome = novos_dados_usuario["nome"],
-            usuario.username = novos_dados_usuario["username"],
-            usuario.email = novos_dados_usuario["email"],
-            usuario.telefone = novos_dados_usuario["telefone"]
-            self.listar_usuarios()
-        else:
-            self.__tela_usuario.mostrar_mensagem('ATENÇÃO: Usuário não existente')
-
-    def remover_usuario(self):
         self.listar_usuarios()
         username_usuario = self.__tela_usuario.buscar_usuario()
         usuario = self.pegar_usuario_pelo_username(username_usuario)
 
-        if(usuario is not None):
+        if usuario is not None:
+            novos_dados_usuario = self.__tela_usuario.pegar_dados_usuario()
+            usuario.nome = novos_dados_usuario['nome']
+            usuario.username = novos_dados_usuario['username']
+            usuario.email = novos_dados_usuario['email']
+            usuario.telefone = novos_dados_usuario['telefone']
+            self.__tela_usuario.mostrar_mensagem("Usuário editado com sucesso!")
+        else:
+            self.__tela_usuario.mostrar_mensagem('ATENÇÃO: Usuário não existente')
+
+    def remover_usuario(self):
+        if not self.__usuarios:
+            self.__tela_usuario.mostrar_mensagem("Nenhum usuário cadastrado.")
+            return
+
+        self.listar_usuarios()
+        username_usuario = self.__tela_usuario.buscar_usuario()
+        usuario = self.pegar_usuario_pelo_username(username_usuario)
+
+        if usuario is not None:
             self.__usuarios.remove(usuario)
-            self.listar_usuarios()
+            self.__tela_usuario.mostrar_mensagem("Usuário removido com sucesso!")
         else:
             self.__tela_usuario.mostrar_mensagem("ATENÇÃO: Usuário não existente")
 
     def abrir_playlists(self):
         self.__controlador_playlists.abre_tela()
 
-    # def seguir_artista(self):
-    #     self.listar_usuarios()
-    #     username_usuario = self.__tela_usuario.buscar_usuario()
-    #     usuario = self.pegar_usuario_pelo_username(username_usuario)
-
-    #     if usuario is not None:
-    #         artista = self.__tela_usuario.pegar_artista()
-    #         usuario.seguir_artista(artista)
-    #         self.__tela_usuario.mostrar_mensagem(f"Artista '{artista}' seguido com sucesso!")
-    #     else:
-    #         self.__tela_usuario.mostrar_mensagem("ATENÇÃO: Usuário não existente")
-
-    # def deixar_de_seguir_artista(self):
-    #     self.listar_usuarios()
-    #     username_usuario = self.__tela_usuario.buscar_usuario()
-    #     usuario = self.pegar_usuario_pelo_username(username_usuario)
-
-    #     if usuario is not None:
-    #         artista = self.__tela_usuario.pegar_artista()
-    #         usuario.deixar_de_seguir(artista)
-    #         self.__tela_usuario.mostrar_mensagem(f"Artista '{artista}' deixado de seguir com sucesso!")
-    #     else:
-    #         self.__tela_usuario.mostrar_mensagem("ATENÇÃO: Usuário não existente")
-
-    # def mostrar_artistas_seguidos(self):
-    #     self.listar_usuarios()
-    #     username_usuario = self.__tela_usuario.buscar_usuario()
-    #     usuario = self.pegar_usuario_pelo_username(username_usuario)
-
-    #     if usuario is not None:
-    #         artistas_seguidos = usuario.mostrar_artistas_seguidos()
-    #         self.__tela_usuario.mostrar_artistas_seguidos(artistas_seguidos)
-    #     else:
-    #         self.__tela_usuario.mostrar_mensagem("ATENÇÃO: Não há nenhum Artista seguido")
-
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
-        lista_opcoes = {
-            1: self.cadastrar_usuario,
-            2: self.editar_usuario,
-            3: self.listar_usuarios,
-            4: self.remover_usuario,
-            5: self.abrir_playlists,
-            # 6: self.deixar_de_seguir_artista,
-            # 7: self.mostrar_artistas_seguidos,
-            0: self.retornar
-        }
-
-        rodando = True
-        while rodando:
+        while True:
             opcao = self.__tela_usuario.imprimir_opcoes()
-            if opcao in lista_opcoes:
-                lista_opcoes[opcao]()
+            if opcao == 0:
+                self.retornar()
+                break
+            elif opcao == 1:
+                self.cadastrar_usuario()
+            elif opcao == 2:
+                self.listar_usuarios()
+            elif opcao == 3:
+                self.editar_usuario()
+            elif opcao == 4:
+                self.remover_usuario()
+            elif opcao == 5:
+                self.abrir_playlists()
             else:
                 self.__tela_usuario.mostrar_mensagem("Opção inválida!")
