@@ -2,14 +2,13 @@ from entidades.artista import Artista
 from entidades.gravadora import Gravadora
 from datetime import date
 
-
 class Contrato:
-    def __init__(self, numero: int, artista: Artista, gravadora: Gravadora):
+    def __init__(self, numero: int, artista: Artista, gravadora: Gravadora, data_inicio: date, data_fim: date):
         self.__numero = numero
         self.__artista = artista
         self.__gravadora = gravadora
-        # self.__data_inicio = data_inicio
-        # self.__data_fim = data_fim
+        self.__data_inicio = data_inicio
+        self.__data_fim = data_fim
 
     @property
     def numero(self):
@@ -35,18 +34,18 @@ class Contrato:
     def gravadora(self, gravadora):
         self.__gravadora = gravadora
 
-    # @property
-    # def data_inicio(self):
-    #     return self.__data_inicio
+    @property
+    def data_inicio(self):
+        return self.__data_inicio
 
-    # @data_inicio.setter
-    # def data_inicio(self, data_inicio):
-    #     self.__data_inicio = data_inicio
+    @data_inicio.setter
+    def data_inicio(self, data_inicio):
+        self.__data_inicio = data_inicio
 
-    # @property
-    # def data_fim(self):
-    #     return self.__data_fim
+    @property
+    def data_fim(self):
+        return self.__data_fim
 
-    # @data_fim.setter
-    # def data_fim(self, data_fim):
-    #     self.__data_fim = data_fim
+    @data_fim.setter
+    def data_fim(self, data_fim):
+        self.__data_fim = data_fim

@@ -8,15 +8,16 @@ class TelaGravadora:
         print("2 - Listar Gravadoras")
         print("3 - Editar Gravadora")
         print("4 - Excluir Gravadora")
+        print("5 - Página de Contratos")
         print("0 - Retornar")
 
         while True:
             try:
                 opcao = int(input("Escolha a opção: "))
-                if 0 <= opcao <= 4:
+                if 0 <= opcao <= 5:
                     return opcao
                 else:
-                    print("Opção inválida! Escolha uma opção entre 0 e 4.")
+                    print("Opção inválida! Escolha uma opção entre 0 e 5.")
             except ValueError:
                 print("Entrada inválida! Digite um número.")
 

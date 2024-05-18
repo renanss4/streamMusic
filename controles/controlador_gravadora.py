@@ -1,10 +1,12 @@
 from telas.tela_gravadora import TelaGravadora
 from entidades.gravadora import Gravadora
+from controles.controlador_contrato import ControladorContrato
 
 class ControladorGravadora:
     def __init__(self, controlador_sistema):
         self.__gravadoras = []
         self.__tela_gravadora = TelaGravadora()
+        self.__controlador_contratos = ControladorContrato(self)
         self.__controlador_sistema = controlador_sistema
 
     def pegar_gravadora_pelo_nome(self, nome: str):
@@ -68,6 +70,9 @@ class ControladorGravadora:
         else:
             self.__tela_gravadora.mostrar_mensagem("ATENÇÃO: Gravadora não existente")
 
+    def abrir_contratos(self):
+        self.__controlador_contratos.abre_tela()
+
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
@@ -85,5 +90,7 @@ class ControladorGravadora:
                 self.editar_gravadora()
             elif opcao == 4:
                 self.remover_gravadora()
+            elif opcao == 5:
+                self.abrir_contratos()
             else:
                 self.__tela_gravadora.mostrar_mensagem('Opção Inválida!')

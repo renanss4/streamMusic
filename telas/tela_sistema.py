@@ -7,17 +7,16 @@ class TelaSistema:
         print("# 1 - Usuários                 #")
         print("# 2 - Artistas                 #")
         print("# 3 - Gravadora                #")
-        print("# 4 - Contrato                 #")
         print("# 0 - Encerrar                 #")
         print("################################")
 
         while True:
             try:
                 opcao = int(input("Escolha a opção: "))
-                if 0 <= opcao <= 4:
+                if 0 <= opcao <= 3:
                     return opcao
                 else:
-                    print('\n' + 'Opção inválida! Escolha uma opção entre 0 e 4.' + '\n')
+                    print('\n' + 'Opção inválida! Escolha uma opção entre 0 e 3.' + '\n')
             except ValueError:
                 print('\n' + "Entrada inválida! Digite um número." + '\n')
     
