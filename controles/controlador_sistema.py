@@ -2,7 +2,6 @@ from telas.tela_sistema import TelaSistema
 from controles.controlador_usuario import ControladorUsuario
 from controles.controlador_artista import ControladorArtista
 from controles.controlador_gravadora import ControladorGravadora
-from controles.controlador_contrato import ControladorContrato
 
 
 class ControladorSistema:
@@ -12,7 +11,6 @@ class ControladorSistema:
         self.__controlador_usuarios = ControladorUsuario(self)
         self.__controlador_artistas = ControladorArtista(self)
         self.__controlador_gravadoras = ControladorGravadora(self)
-        self.__controlador_contratos = ControladorContrato(self)
 
     def abrir_usuarios(self):
         self.__controlador_usuarios.abre_tela()
@@ -23,13 +21,11 @@ class ControladorSistema:
     def abrir_gravadoras(self):
         self.__controlador_gravadoras.abre_tela()
 
-    def abrir_contratos(self):
-        self.__controlador_contratos.abre_tela()
-
     def inicializar_sistema(self):
         self.abre_tela()
 
     def encerrar_sistema(self):
+        self.__tela_sistema.mostrar_mensagem("Encerrando o sistema...")
         exit(0)
 
     def abre_tela(self):
@@ -44,7 +40,5 @@ class ControladorSistema:
                 self.abrir_artistas()
             elif opcao == 3:
                 self.abrir_gravadoras()
-            elif opcao == 4:
-                self.abrir_contratos()
             else:
                 self.__tela_sistema.mostrar_mensagem('Opção Inválida!')
