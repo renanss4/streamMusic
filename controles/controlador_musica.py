@@ -46,6 +46,10 @@ class ControladorMusica:
         else:
             self.__tela_musica.mostrar_mensagem('ATENÇÃO: Música não existente')
 
+    def adicionar_musica(self, musica):
+        self.__musicas.append(musica)
+
+
     def remover_musica(self):
         if not self.__musicas:
             self.__tela_musica.mostrar_mensagem("Nenhuma música cadastrada.")
@@ -60,6 +64,20 @@ class ControladorMusica:
             self.__tela_musica.mostrar_mensagem("Música removida com sucesso!")
         else:
             self.__tela_musica.mostrar_mensagem('ATENÇÃO: Música não existente')
+
+    def pegar_dados_musica(self):
+        return self.__tela_musica.pegar_dados_musica()
+
+    def mostrar_musicas(self, musicas):
+        self.__tela_musica.mostrar_musicas(musicas)
+
+    def mostrar_mensagem(self, mensagem: str):
+        self.__tela_musica.mostrar_mensagem(mensagem)
+
+    def pegar_musicas_por_artista(self, artista):
+        musicas_do_artista = [musica for musica in self.__musicas if musica.artista == artista]
+        return musicas_do_artista
+
 
     def retornar(self):
         self.__controlador_artista.abre_tela()
