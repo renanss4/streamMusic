@@ -3,7 +3,7 @@ from entidades.artista import Artista
 from controles.controlador_musica import ControladorMusica
 from controles.controlador_album import ControladorAlbum
 from controles.controlador_playlist import ControladorPlaylist
-from controles.controlador_contrato import ControladorContrato
+# from controles.controlador_contrato import ControladorContrato
 
 class ControladorArtista:
 
@@ -13,7 +13,7 @@ class ControladorArtista:
         self.__controlador_musicas = ControladorMusica(self)
         self.__controlador_albuns = ControladorAlbum(self)
         self.__controlador_playlists = ControladorPlaylist(self)
-        self.__controlador_contratos = ControladorContrato(self)
+        # self.__controlador_contratos = ControladorContrato(self)
         self.__controlador_sistema = controlador_sistema
 
 
@@ -158,8 +158,8 @@ class ControladorArtista:
     def abrir_playlists(self):
         self.__controlador_playlists.abre_tela()
 
-    def abrir_contratos(self):
-        self.__controlador_contratos.abre_tela()
+    # def abrir_contratos(self):
+    #     self.__controlador_contratos.abre_tela()
 
     # Métodos de retorno e abertura da tela principal do controlador de artista
     def retornar(self):
@@ -185,13 +185,13 @@ class ControladorArtista:
                 self.abrir_albuns()
             elif opcao == 7:
                 self.abrir_playlists()
+            # elif opcao == 8:
+            #     self.abrir_contratos()
             elif opcao == 8:
-                self.abrir_contratos()
-            elif opcao == 9:
                 self.seguir_artista()
-            elif opcao == 10:
+            elif opcao == 9:
                 self.deixar_de_seguir_artista()
-            elif opcao == 11:
+            elif opcao == 10:
                 self.ver_artistas_seguidos()
             else:
                 self.__tela_artista.mostrar_mensagem('Opção Inválida!')

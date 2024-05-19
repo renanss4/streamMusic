@@ -12,19 +12,19 @@ class TelaArtista:
         print("5 - Página de Músicas")
         print("6 - Página de Álbuns")
         print("7 - Página de Playlists")
-        print("8 - Página de Contratos")
-        print("9 - Seguir Artista")
-        print("10 - Deixar de Seguir Artista")
-        print("11 - Ver Artistas Seguidos")
+        # print("8 - Página de Contratos")
+        print("8 - Seguir Artista")
+        print("9 - Deixar de Seguir Artista")
+        print("10 - Ver Artistas Seguidos")
         print("0 - Retornar")
 
         while True:
             try:
                 opcao = int(input("Escolha a opção: "))
-                if 0 <= opcao <= 11:
+                if 0 <= opcao <= 10:
                     return opcao
                 else:
-                    print("Opção inválida! Escolha uma opção entre 0 e 11.")
+                    print("Opção inválida! Escolha uma opção entre 0 e 10.")
             except ValueError:
                 print("Entrada inválida! Digite um número.")
 
