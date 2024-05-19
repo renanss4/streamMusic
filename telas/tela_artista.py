@@ -1,6 +1,5 @@
 from datetime import datetime
 
-
 class TelaArtista:
 
     def imprimir_opcoes(self):
@@ -14,15 +13,18 @@ class TelaArtista:
         print("6 - Página de Álbuns")
         print("7 - Página de Playlists")
         print("8 - Página de Contratos")
+        print("9 - Seguir Artista")
+        print("10 - Deixar de Seguir Artista")
+        print("11 - Ver Artistas Seguidos")
         print("0 - Retornar")
 
         while True:
             try:
                 opcao = int(input("Escolha a opção: "))
-                if 0 <= opcao <= 8:
+                if 0 <= opcao <= 11:
                     return opcao
                 else:
-                    print("Opção inválida! Escolha uma opção entre 0 e 8.")
+                    print("Opção inválida! Escolha uma opção entre 0 e 11.")
             except ValueError:
                 print("Entrada inválida! Digite um número.")
 
@@ -55,6 +57,10 @@ class TelaArtista:
             print("Telefone:", dados_artista["telefone"])
             print('Data de Nascimento:', dados_artista['data_nascimento'])
             print('--------------------------------')
-   
+
+    def pegar_nome_artista(self):
+        nome = input('Nome do artista: ').strip()
+        return nome
+
     def mostrar_mensagem(self, msg):
         print('\n' + msg + '\n')
