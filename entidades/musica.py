@@ -1,8 +1,9 @@
+
+
 class Musica:
-    def __init__(self, nome=None, letra=None, artista=None) -> None:
+    def __init__(self, nome=None, letra=None) -> None:
         self.__nome = nome
         self.__letra = letra
-        self.__artista = artista
 
     @property
     def nome(self):
@@ -19,11 +20,3 @@ class Musica:
     @letra.setter
     def letra(self, letra):
         self.__letra = letra
-
-    @property
-    def artista(self):
-        return self.__artista
-    
-    @artista.setter
-    def artista(self, artista):
-        self.__artista = artista

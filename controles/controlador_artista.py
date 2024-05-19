@@ -1,10 +1,9 @@
 from telas.tela_artista import TelaArtista
 from entidades.artista import Artista
-from entidades.musica import Musica  # Adicionando esta linha para importar a classe Musica
 from controles.controlador_musica import ControladorMusica
 from controles.controlador_album import ControladorAlbum
 from controles.controlador_playlist import ControladorPlaylist
-from controles.controlador_contrato import ControladorContrato
+# from controles.controlador_contrato import ControladorContrato
 
 class ControladorArtista:
 
@@ -14,53 +13,75 @@ class ControladorArtista:
         self.__controlador_musicas = ControladorMusica(self)
         self.__controlador_albuns = ControladorAlbum(self)
         self.__controlador_playlists = ControladorPlaylist(self)
-        self.__controlador_contratos = ControladorContrato(self)
+        # self.__controlador_contratos = ControladorContrato(self)
         self.__controlador_sistema = controlador_sistema
+
 
     @property
     def artistas(self):
         return self.__artistas
 
-    # Métodos de música
-    def cadastrar_musica(self):
+    def seguir_artista(self):
+        self.__tela_artista.mostrar_mensagem("Seguir Artista")
+        if not self.__artistas:
+            self.__tela_artista.mostrar_mensagem("Nenhum artista cadastrado.")
+            return
+
         nome_artista = self.__tela_artista.pegar_nome_artista()
         artista = self.pegar_artista_pelo_nome(nome_artista)
 
-        if not artista:
-            self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
-            return
+        if artista:
+            nome_artista_seguir = self.__tela_artista.pegar_nome_artista()
+            artista_seguir = self.pegar_artista_pelo_nome(nome_artista_seguir)
 
-        dados_musica = self.__controlador_musicas.pegar_dados_musica()
-        musica_existente = self.__controlador_musicas.pegar_musica_pelo_nome(dados_musica['nome'])
-
-        if musica_existente:
-            self.__tela_artista.mostrar_mensagem("Música já existente!")
-            return
-
-        musica = Musica(dados_musica['nome'], dados_musica['letra'], artista)
-        artista.musicas.append(musica)
-        self.__controlador_musicas.adicionar_musica(musica)
-        self.__controlador_musicas.mostrar_mensagem("Música cadastrada com sucesso!")
-
-
-
-    def ver_musicas_do_artista(self):
-        nome_artista = self.__tela_artista.pegar_nome_artista()
-        artista = self.pegar_artista_pelo_nome(nome_artista)
-
-        if not artista:
-            self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
-            return
-
-        musicas_do_artista = self.__controlador_musicas.pegar_musicas_por_artista(artista)
-        if musicas_do_artista:
-            musicas_dados = [{'nome': musica.nome, 'letra': musica.letra} for musica in musicas_do_artista]
-            self.__controlador_musicas.mostrar_musicas(musicas_dados)
+            if artista_seguir:
+                artista.artistas_seguidos.append(artista_seguir)
+                self.__tela_artista.mostrar_mensagem(f"Você seguiu o artista {artista_seguir.nome}!")
+            else:
+                self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
         else:
-            self.__tela_artista.mostrar_mensagem("Nenhuma música encontrada para este artista.")
+            self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
 
-    # Outros métodos de seguir, deixar de seguir, listar etc., permanecem os mesmos
+    def deixar_de_seguir_artista(self):
+        self.__tela_artista.mostrar_mensagem("Deixar de Seguir Artista")
+        if not self.__artistas:
+            self.__tela_artista.mostrar_mensagem("Nenhum artista cadastrado.")
+            return
 
+        nome_artista = self.__tela_artista.pegar_nome_artista()
+        artista = self.pegar_artista_pelo_nome(nome_artista)
+
+        if artista:
+            nome_artista_deixar = self.__tela_artista.pegar_nome_artista()
+            artista_deixar = self.pegar_artista_pelo_nome(nome_artista_deixar)
+
+            if artista_deixar:
+                if artista_deixar in artista.artistas_seguidos:
+                    artista.artistas_seguidos.remove(artista_deixar)
+                    self.__tela_artista.mostrar_mensagem(f"Você deixou de seguir o artista {artista_deixar.nome}!")
+                else:
+                    self.__tela_artista.mostrar_mensagem("Você não segue esse artista!")
+            else:
+                self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
+        else:
+            self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
+
+    def ver_artistas_seguidos(self):
+        self.__tela_artista.mostrar_mensagem("Artistas Seguidos")
+        nome_artista = self.__tela_artista.pegar_nome_artista()
+        artista = self.pegar_artista_pelo_nome(nome_artista)
+
+        if artista:
+            artistas_dados = [{'nome': artista_seguido.nome, 'email': artista_seguido.email, 'telefone': artista_seguido.telefone,
+                               'data_nascimento': artista_seguido.data_nascimento} for artista_seguido in artista.artistas_seguidos]
+            if artistas_dados:
+                self.__tela_artista.mostrar_artistas(artistas_dados)
+            else:
+                self.__tela_artista.mostrar_mensagem("Esse artista não segue nenhum outro artista.")
+        else:
+            self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
+
+    # Métodos auxiliares de busca e listagem de artistas
     def pegar_artista_pelo_nome(self, nome: str):
         for artista in self.__artistas:
             if artista.nome == nome:
@@ -125,7 +146,7 @@ class ControladorArtista:
             self.__artistas.remove(artista)
             self.__tela_artista.mostrar_mensagem("Artista removido com sucesso!")
         else:
-            self.__tela_artista.mostrar_mensagem('ATENÇÃO: Artista não existente')
+            self.__tela_artista.mostrar_mensagem("ATENÇÃO: Artista não existente")
 
     # Métodos para abrir as telas de músicas, álbuns e playlists
     def abrir_musicas(self):
@@ -137,8 +158,8 @@ class ControladorArtista:
     def abrir_playlists(self):
         self.__controlador_playlists.abre_tela()
 
-    def abrir_contratos(self):
-        self.__controlador_contratos.abre_tela()
+    # def abrir_contratos(self):
+    #     self.__controlador_contratos.abre_tela()
 
     # Métodos de retorno e abertura da tela principal do controlador de artista
     def retornar(self):
@@ -159,18 +180,18 @@ class ControladorArtista:
             elif opcao == 4:
                 self.remover_artista()
             elif opcao == 5:
-                self.cadastrar_musica()
+                self.abrir_musicas()
             elif opcao == 6:
                 self.abrir_albuns()
             elif opcao == 7:
                 self.abrir_playlists()
+            # elif opcao == 8:
+            #     self.abrir_contratos()
             elif opcao == 8:
-                self.abrir_contratos()
-            elif opcao == 9:
                 self.seguir_artista()
-            elif opcao == 10:
+            elif opcao == 9:
                 self.deixar_de_seguir_artista()
-            elif opcao == 11:
+            elif opcao == 10:
                 self.ver_artistas_seguidos()
             else:
                 self.__tela_artista.mostrar_mensagem('Opção Inválida!')
