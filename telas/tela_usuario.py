@@ -95,4 +95,5 @@ class TelaUsuario:
             print('--------------------------------')
 
     def mostrar_mensagem(self, msg):
+        print('\n')
         print('\n' + msg + '\n')

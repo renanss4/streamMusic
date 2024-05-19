@@ -76,6 +76,10 @@ class TelaArtista:
             print('Data de Nascimento:', dados_artista['data_nascimento'])
             print('--------------------------------')
 
+    def buscar_artista(self):
+        nome = input('Nome do artista que deseja buscar: ').strip()
+        return nome
+
     def pegar_nome_artista(self):
         nome = input('Nome do artista: ').strip()
         return nome

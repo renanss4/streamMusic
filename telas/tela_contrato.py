@@ -96,4 +96,5 @@ class TelaContrato:
                 print("Entrada inválida! Por favor, insira um número.")
 
     def mostrar_mensagem(self, msg):
+        print('\n')
         print('\n' + msg + '\n')

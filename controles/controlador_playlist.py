@@ -1,12 +1,15 @@
 from telas.tela_playlist import TelaPlaylist
 from entidades.playlist import Playlist
+# from telas.tela_musica import TelaMusica
 
 
 class ControladorPlaylist:
-    def __init__(self, controlador_artista) -> None:
+    def __init__(self, controlador_artista, controlador_musica) -> None:
         self.__playlists = []
         self.__tela_playlist = TelaPlaylist()
+        # self.__tela_musica = TelaMusica()
         self.__controlador_artista = controlador_artista
+        # self.__controlador_musica = controlador_musica
 
     def pegar_playlist_pelo_nome(self, nome: str):
         for playlist in self.__playlists:
@@ -27,8 +30,11 @@ class ControladorPlaylist:
             dados_playlist['nome'],
             dados_playlist['descricao']
         )
-        self.__playlists.append(playlist)
-        self.__tela_playlist.mostrar_mensagem("Playlist cadastrada com sucesso!")
+        if self.pegar_playlist_pelo_nome(dados_playlist['nome']):
+            self.__tela_playlist.mostrar_mensagem("Playlist já existente!")
+        else:
+            self.__playlists.append(playlist)
+            self.__tela_playlist.mostrar_mensagem("Playlist cadastrada com sucesso!")
 
     def editar_playlist(self):
         if not self.__playlists:
@@ -36,14 +42,13 @@ class ControladorPlaylist:
             return
 
         self.listar_playlists()
-        nome_playlist = self.__tela_playlist.pegar_dados_playlist()
+        nome_playlist = self.__tela_playlist.buscar_playlist()
         playlist = self.pegar_playlist_pelo_nome(nome_playlist)
 
         if playlist is not None:
             novos_dados_playlist = self.__tela_playlist.pegar_dados_playlist()
             playlist.nome = novos_dados_playlist['nome']
             playlist.descricao = novos_dados_playlist['descricao']
-            self.listar_playlists()
             self.__tela_playlist.mostrar_mensagem("Playlist editada com sucesso!")
         else:
             self.__tela_playlist.mostrar_mensagem('ATENÇÃO: Playlist não existente')
@@ -54,7 +59,7 @@ class ControladorPlaylist:
             return
 
         self.listar_playlists()
-        nome_playlist = self.__tela_playlist.pegar_dados_playlist()
+        nome_playlist = self.__tela_playlist.buscar_playlist()
         playlist = self.pegar_playlist_pelo_nome(nome_playlist)
 
         if playlist is not None:

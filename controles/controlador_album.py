@@ -1,11 +1,13 @@
 from telas.tela_album import TelaAlbum
 from entidades.album import Album
 
+
 class ControladorAlbum:
-    def __init__(self, controlador_artista) -> None:
+    def __init__(self, controlador_artista, controlador_musica) -> None:
         self.__albuns = []
         self.__tela_album = TelaAlbum()
         self.__controlador_artista = controlador_artista
+        # self.__controlador_musica = controlador_musica
 
     def pegar_album_pelo_nome(self, nome: str):
         for album in self.__albuns:

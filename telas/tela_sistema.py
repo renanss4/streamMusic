@@ -1,5 +1,6 @@
 class TelaSistema:
     def imprimir_opcoes(self):
+        print('\n')
         print("################################")
         print("# --------StreamMusic--------- #")
         print("# Escolha sua opção            #")
@@ -12,7 +13,7 @@ class TelaSistema:
 
         while True:
             try:
-                opcao = int(input("Escolha a opção: "))
+                opcao = int(input('\n' + "Escolha uma opção: "))
                 if 0 <= opcao <= 3:
                     return opcao
                 else:
@@ -21,4 +22,5 @@ class TelaSistema:
                 print('\n' + "Entrada inválida! Digite um número." + '\n')
     
     def mostrar_mensagem(self, msg):
+        print('\n')
         print('\n' + msg + '\n')

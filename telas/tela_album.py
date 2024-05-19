@@ -29,7 +29,6 @@ class TelaAlbum:
                 break
             else:
                 print('Nome não pode ser vazio')
-                
         descricao = input("Descrição: ").strip()
         return {'nome': nome, 'descricao': descricao}
     
@@ -42,8 +41,10 @@ class TelaAlbum:
             print('--------------------------------')
 
     def buscar_album(self):
+        print('\n')
         nome = input('Nome do álbum que deseja buscar: ').strip()
         return nome
     
     def mostrar_mensagem(self, msg):
+        print('\n')
         print('\n' + msg + '\n')

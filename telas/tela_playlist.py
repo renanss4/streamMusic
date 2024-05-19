@@ -40,11 +40,6 @@ class TelaPlaylist:
             print("Descrição:", dados_playlist["descricao"])
             print('--------------------------------')
 
-    def buscar_playlist(self):
-        print("\n")
-        nome = input('Nome da playlist que deseja buscar: ').strip()
-        return nome
-
     def mostrar_mensagem(self, msg):
-        print("\n")
-        print(msg)
+        print('\n')
+        print('\n' + msg + '\n')

@@ -1,11 +1,12 @@
 from telas.tela_contrato import TelaContrato
 from entidades.contrato import Contrato
+from entidades.gravadora import Gravadora
 
 class ControladorContrato:
     def __init__(self, controlador_gravadora):
         self.__contratos = []
         self.__tela_contrato = TelaContrato()
-        self.controlador_gravadora = controlador_gravadora
+        self.__controlador_gravadora = controlador_gravadora
 
     def pegar_contrato_pelo_numero(self, numero: int):
         for contrato in self.__contratos:

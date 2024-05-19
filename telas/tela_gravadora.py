@@ -67,5 +67,5 @@ class TelaGravadora:
         return {"nome": nome}
     
     def mostrar_mensagem(self, msg):
-        print("\n")
-        print(msg)
+        print('\n')
+        print('\n' + msg + '\n')

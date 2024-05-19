@@ -31,8 +31,7 @@ class ControladorArtista:
         artista = self.pegar_artista_pelo_nome(nome_artista)
 
         if artista:
-            nome_artista_seguir = self.__tela_artista.pegar_nome_artista()
-            artista_seguir = self.pegar_artista_pelo_nome(nome_artista_seguir)
+            artista_seguir = self.pegar_artista_pelo_nome(nome_artista)
 
             if artista_seguir:
                 artista.artistas_seguidos.append(artista_seguir)
@@ -52,8 +51,7 @@ class ControladorArtista:
         artista = self.pegar_artista_pelo_nome(nome_artista)
 
         if artista:
-            nome_artista_deixar = self.__tela_artista.pegar_nome_artista()
-            artista_deixar = self.pegar_artista_pelo_nome(nome_artista_deixar)
+            artista_deixar = self.pegar_artista_pelo_nome(nome_artista)
 
             if artista_deixar:
                 if artista_deixar in artista.artistas_seguidos:
@@ -158,9 +156,6 @@ class ControladorArtista:
     def abrir_playlists(self):
         self.__controlador_playlists.abre_tela()
 
-    # def abrir_contratos(self):
-    #     self.__controlador_contratos.abre_tela()
-
     # Métodos de retorno e abertura da tela principal do controlador de artista
     def retornar(self):
         self.__controlador_sistema.abre_tela()
@@ -185,8 +180,6 @@ class ControladorArtista:
                 self.abrir_albuns()
             elif opcao == 7:
                 self.abrir_playlists()
-            # elif opcao == 8:
-            #     self.abrir_contratos()
             elif opcao == 8:
                 self.seguir_artista()
             elif opcao == 9:

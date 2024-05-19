@@ -5,6 +5,8 @@ class TelaMusica:
         print("1 - Cadastrar Música")
         print("2 - Listar Músicas")
         print("3 - Editar Música")
+        # print("4 - Adicionar Música à Playlist")
+        # print("5 - Adicionar Música ao Álbum")
         print("4 - Excluir Música")
         print("0 - Retornar")
 
@@ -36,10 +38,27 @@ class TelaMusica:
             print('Nome:', dados_musica['nome'])
             print('Letra:', dados_musica['letra'])
             print('--------------------------------')
+    
+    # def pegar_nome_musica(self):
+    #     while True:
+    #         nome = input("Nome da música: ").strip()
+    #         if nome:
+    #             return nome
+    #         else:
+    #             print("Nome não pode ser vazio!")
 
     def buscar_musica(self):
         nome = input('Nome da música que deseja buscar: ').strip()
         return nome
 
+    # def adiciona_musica(self):
+    #     while True:
+    #         nome_musica = input("Nome da música a ser adicionada: ").strip()
+    #         if nome_musica:
+    #             return nome_musica
+    #         else:
+    #             print("Nome da música não pode ser vazio!")
+
     def mostrar_mensagem(self, msg):
+        print('\n')
         print('\n' + msg + '\n')
