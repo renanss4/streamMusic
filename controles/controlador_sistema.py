@@ -3,7 +3,6 @@ from controles.controlador_usuario import ControladorUsuario
 from controles.controlador_artista import ControladorArtista
 from controles.controlador_gravadora import ControladorGravadora
 
-
 class ControladorSistema:
 
     def __init__(self) -> None:
@@ -11,6 +10,18 @@ class ControladorSistema:
         self.__controlador_usuarios = ControladorUsuario(self)
         self.__controlador_artistas = ControladorArtista(self)
         self.__controlador_gravadoras = ControladorGravadora(self)
+
+    @property
+    def controlador_usuarios(self):
+        return self.__controlador_usuarios
+
+    @property
+    def controlador_artistas(self):
+        return self.__controlador_artistas
+
+    @property
+    def controlador_gravadoras(self):
+        return self.__controlador_gravadoras
 
     def abrir_usuarios(self):
         self.__controlador_usuarios.abre_tela()
@@ -31,7 +42,7 @@ class ControladorSistema:
     def abre_tela(self):
         while True:
             opcao = self.__tela_sistema.imprimir_opcoes()
-            if opcao == 00:
+            if opcao == 0:
                 self.encerrar_sistema()
                 break
             elif opcao == 1:

@@ -74,6 +74,63 @@ class ControladorUsuario:
         else:
             self.__tela_usuario.mostrar_mensagem("ATENÇÃO: Usuário não existente")
 
+    def seguir_artista(self):
+        self.__tela_usuario.mostrar_mensagem("Seguir Artista")
+        if not self.__controlador_sistema.controlador_artistas.artistas:
+            self.__tela_usuario.mostrar_mensagem("Nenhum artista cadastrado.")
+            return
+
+        nome_usuario = self.__tela_usuario.buscar_usuario()
+        usuario = self.pegar_usuario_pelo_nome(nome_usuario)
+
+        if usuario:
+            nome_artista = self.__tela_usuario.pegar_nome_artista()
+            artista = self.__controlador_sistema.controlador_artistas.pegar_artista_pelo_nome(nome_artista)
+
+            if artista:
+                usuario.artistas_seguidos.append(artista)
+                self.__tela_usuario.mostrar_mensagem(f"Você seguiu o artista {artista.nome}!")
+            else:
+                self.__tela_usuario.mostrar_mensagem("Artista não encontrado!")
+        else:
+            self.__tela_usuario.mostrar_mensagem("Usuário não encontrado!")
+
+    def ver_artistas_seguidos(self):
+        self.__tela_usuario.mostrar_mensagem("Artistas Seguidos")
+        nome_usuario = self.__tela_usuario.buscar_usuario()
+        usuario = self.pegar_usuario_pelo_nome(nome_usuario)
+
+        if usuario:
+            artistas_dados = [{'nome': artista.nome, 'email': artista.email, 'telefone': artista.telefone,
+                               'data_nascimento': artista.data_nascimento} for artista in usuario.artistas_seguidos]
+            if artistas_dados:
+                self.__tela_usuario.mostrar_artistas_seguidos(artistas_dados)
+            else:
+                self.__tela_usuario.mostrar_mensagem("Você não segue nenhum artista.")
+        else:
+            self.__tela_usuario.mostrar_mensagem("Usuário não encontrado!")
+
+    def deixar_de_seguir_artista(self):
+        self.__tela_usuario.mostrar_mensagem("Deixar de Seguir Artista")
+        nome_usuario = self.__tela_usuario.buscar_usuario()
+        usuario = self.pegar_usuario_pelo_nome(nome_usuario)
+
+        if usuario:
+            nome_artista = self.__tela_usuario.pegar_nome_artista()
+            artista = self.__controlador_sistema.controlador_artistas.pegar_artista_pelo_nome(nome_artista)
+
+            if artista:
+                if artista in usuario.artistas_seguidos:
+                    usuario.artistas_seguidos.remove(artista)
+                    self.__tela_usuario.mostrar_mensagem(f"Você deixou de seguir o artista {artista.nome}!")
+                else:
+                    self.__tela_usuario.mostrar_mensagem("Você não segue esse artista!")
+            else:
+                self.__tela_usuario.mostrar_mensagem("Artista não encontrado!")
+        else:
+            self.__tela_usuario.mostrar_mensagem("Usuário não encontrado!")
+
+
     def abrir_playlists(self):
         self.__controlador_playlists.abre_tela()
 
@@ -96,5 +153,11 @@ class ControladorUsuario:
                 self.remover_usuario()
             elif opcao == 5:
                 self.abrir_playlists()
+            elif opcao == 6:
+                self.seguir_artista()
+            elif opcao == 7:
+                self.deixar_de_seguir_artista()
+            elif opcao == 8:
+                self.ver_artistas_seguidos()
             else:
                 self.__tela_usuario.mostrar_mensagem("Opção inválida!")

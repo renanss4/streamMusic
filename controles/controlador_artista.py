@@ -16,6 +16,11 @@ class ControladorArtista:
         self.__controlador_contratos = ControladorContrato(self)
         self.__controlador_sistema = controlador_sistema
 
+
+    @property
+    def artistas(self):
+        return self.__artistas
+
     # Métodos auxiliares de busca e listagem de artistas
     def pegar_artista_pelo_nome(self, nome: str):
         for artista in self.__artistas:

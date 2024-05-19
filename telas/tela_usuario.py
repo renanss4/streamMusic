@@ -11,15 +11,18 @@ class TelaUsuario:
         print("3 - Editar Usuário")
         print("4 - Excluir Usuário")
         print("5 - Página de Playlists")
+        print("6 - Seguir Artista")
+        print("7 - Deixar de Seguir Artista")
+        print("8 - Ver Artistas Seguidos")
         print("0 - Retornar")
 
         while True:
             try:
                 opcao = int(input("Escolha a opção: "))
-                if 0 <= opcao <= 5:
+                if 0 <= opcao <= 8:
                     return opcao
                 else:
-                    print("Opção inválida! Escolha uma opção entre 0 e 5.")
+                    print("Opção inválida! Escolha uma opção entre 0 e 8.")
             except ValueError:
                 print("Entrada inválida! Digite um número.")
 
@@ -58,6 +61,20 @@ class TelaUsuario:
     def buscar_usuario(self):
         nome = input('Nome do usuário que deseja buscar: ').strip()
         return nome
+
+    def pegar_nome_artista(self):
+        nome = input('Nome do artista: ').strip()
+        return nome
+
+    def mostrar_artistas_seguidos(self, artistas_dados):
+        print('\n')
+        print('-------- ARTISTAS SEGUIDOS ----------')
+        for dados_artista in artistas_dados:
+            print('Nome:', dados_artista['nome'])
+            print('Email:', dados_artista['email'])
+            print('Telefone:', dados_artista['telefone'])
+            print('Data de Nascimento:', dados_artista['data_nascimento'])
+            print('--------------------------------')
 
     def mostrar_mensagem(self, msg):
         print('\n' + msg + '\n')
