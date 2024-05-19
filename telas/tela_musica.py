@@ -20,7 +20,13 @@ class TelaMusica:
 
     def pegar_dados_musica(self):
         print('\n-------- CADASTRAR/EDITAR MÚSICA ----------')
-        nome = input("Nome da música: ").strip()
+        while True:
+            nome = input("Nome: ").strip()
+            if nome:
+                break
+            else:
+                print("Nome não pode ser vazio!")
+
         letra = input("Letra da música: ").strip()
         return {'nome': nome, 'letra': letra}
 

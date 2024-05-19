@@ -23,7 +23,13 @@ class TelaAlbum:
     def pegar_dados_album(self):
         print('\n')
         print("-------- CADASTRAR/EDITAR ÁLBUM ----------")
-        nome = input("Nome: ").strip()
+        while True:
+            nome = input("Nome: ").strip()
+            if nome:
+                break
+            else:
+                print('Nome não pode ser vazio')
+                
         descricao = input("Descrição: ").strip()
         return {'nome': nome, 'descricao': descricao}
     

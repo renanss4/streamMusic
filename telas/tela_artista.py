@@ -30,9 +30,27 @@ class TelaArtista:
 
     def pegar_dados_artista(self):
         print("\n-------- CADASTRAR NOVO ARTISTA ----------")
-        nome = input("Nome: ").strip()
-        email = input("Email: ").strip()
-        telefone = input("Telefone: ").strip()
+        
+        while True:
+            nome = input("Nome: ").strip()
+            if nome:
+                break
+            else:
+                print("Nome não pode ser vazio!")
+
+        while True:
+            email = input("Email: ").strip()
+            if email:
+                break
+            else:
+                print("Email não pode ser vazio!")
+
+        while True:
+            telefone = input("Telefone: ").strip()
+            if telefone.isdigit():
+                break
+            else:
+                print("Telefone deve conter apenas números!")
 
         while True:
             try:

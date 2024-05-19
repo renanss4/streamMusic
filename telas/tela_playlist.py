@@ -23,7 +23,12 @@ class TelaPlaylist:
     def pegar_dados_playlist(self):
         print('\n')
         print("-------- CADASTRAR/EDITAR PLAYLIST ----------")
-        nome = input("Nome: ").strip()
+        while True:
+            nome = input("Nome: ").strip()
+            if nome:
+                break
+            else:
+                print('Nome não pode ser vazio')
         descricao = input("Descrição: ").strip()
         return {'nome': nome, 'descricao': descricao}
 

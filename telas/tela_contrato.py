@@ -27,9 +27,19 @@ class TelaContrato:
     def pegar_dados_contrato(self):
         print('\n')
         print("-------- CADASTRAR NOVO CONTRATO ----------")
-        numero = int(input('Número: '))
-        artista = input("Artista: ")
-        gravadora = input('Gravadora: ')
+        while True:
+            numero = input("Número: ").strip()
+            if numero.isdigit():
+                break
+            else:
+                print("Número deve conter apenas números!")
+        artista = input("Artista: ").strip()
+        if not artista:
+            print("Nome do artista não pode ser vazio!")
+        
+        gravadora = input('Gravadora: ').strip()
+        if not gravadora:
+            print("Nome da gravadora não pode ser vazio!")
         
         while True:
             try:
