@@ -49,22 +49,6 @@ class ControladorContrato:
         self.__contratos.append(contrato)
         self.__tela_contrato.mostrar_mensagem(f"Contrato de Nº {contrato.numero} adicionado com sucesso.")
 
-    def remover_contrato(self):
-        if not self.__contratos:
-            self.__tela_contrato.mostrar_mensagem("Nenhum contrato cadastrado.")
-            return
-
-        self.listar_contratos()
-        numero_contrato = self.__tela_contrato.pegar_dados_contrato()
-        contrato = self.pegar_contrato_pelo_numero(numero_contrato)
-
-        if contrato is not None:
-            self.__contratos.remove(contrato)
-            self.listar_contratos()
-            self.__tela_contrato.mostrar_mensagem("Contrato removido com sucesso!")
-        else:
-            self.__tela_contrato.mostrar_mensagem('ATENÇÃO: Contrato não existente')
-
     def buscar_contrato_por_artista(self):
         artista = self.__tela_contrato.buscar_por_artista()
         contratos_encontrados = [contrato for contrato in self.__contratos if contrato.artista == artista]
@@ -112,12 +96,10 @@ class ControladorContrato:
             elif opcao == 2:
                 self.listar_contratos()
             elif opcao == 3:
-                self.remover_contrato()
-            elif opcao == 4:
                 self.buscar_contrato_por_artista()
-            elif opcao == 5:
+            elif opcao == 4:
                 self.buscar_contrato_por_gravadora()
-            elif opcao == 6:
+            elif opcao == 5:
                 self.buscar_contrato_pelo_numero()
             else:
                 self.__tela_contrato.mostrar_mensagem('Opção Inválida!')

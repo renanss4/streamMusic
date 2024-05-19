@@ -8,19 +8,18 @@ class TelaContrato:
         print("Escolha a opção:")
         print("1 - Cadastrar Contrato")
         print("2 - Listar Contratos")
-        print("3 - Excluir Contrato")
-        print("4 - Buscar Contratos por Artista")
-        print("5 - Buscar Contratos por Gravadora")
-        print("6 - Buscar Contrato por Número")
+        print("3 - Buscar Contratos por Artista")
+        print("4 - Buscar Contratos por Gravadora")
+        print("5 - Buscar Contrato por Número")
         print("0 - Retornar")
 
         while True:
             try:
                 opcao = int(input("Escolha a opção: "))
-                if 0 <= opcao <= 6:
+                if 0 <= opcao <= 5:
                     return opcao
                 else:
-                    print("Opção inválida! Escolha uma opção entre 0 e 6.")
+                    print("Opção inválida! Escolha uma opção entre 0 e 5.")
             except ValueError:
                 print("Entrada inválida! Digite um número.")
 
