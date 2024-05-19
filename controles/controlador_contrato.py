@@ -2,10 +2,10 @@ from telas.tela_contrato import TelaContrato
 from entidades.contrato import Contrato
 
 class ControladorContrato:
-    def __init__(self, controlador_gravadora):
+    def __init__(self, controlador_artista_gravadora):
         self.__contratos = []
         self.__tela_contrato = TelaContrato()
-        self.controlador_gravadora = controlador_gravadora
+        self.__controlador_artista_gravadora = controlador_artista_gravadora
 
     def pegar_contrato_pelo_numero(self, numero: int):
         for contrato in self.__contratos:
@@ -40,24 +40,6 @@ class ControladorContrato:
             self.__tela_contrato.mostrar_mensagem("A data de início não pode ser maior que a data de fim!")
             return
 
-        for contrato in self.__contratos:
-            if contrato.numero == numero and contrato.artista == artista and contrato.gravadora == gravadora:
-                self.__tela_contrato.mostrar_mensagem("Contrato já existente!")
-                return
-
-        # Verifica se o artista está cadastrado
-        # artista = self.__controlador_artista_gravadora.pegar_artista_pelo_nome(dados_contrato['artista'])
-        # if not artista:
-        #     self.__tela_contrato.mostrar_mensagem("Artista não cadastrado!")
-        #     return
-
-        # Verifica se a gravadora está cadastrada
-        gravadora = self.controlador_gravadora.pegar_gravadora_pelo_nome(dados_contrato['gravadora'])
-        if not gravadora:
-            self.__tela_contrato.mostrar_mensagem("Gravadora não cadastrada!")
-            return
-
-        # Verifica se o contrato já existe
         for contrato in self.__contratos:
             if contrato.numero == numero and contrato.artista == artista and contrato.gravadora == gravadora:
                 self.__tela_contrato.mostrar_mensagem("Contrato já existente!")
@@ -101,7 +83,7 @@ class ControladorContrato:
             self.__tela_contrato.mostrar_mensagem(f"Nenhum contrato encontrado com o número {numero}.")
 
     def retornar(self):
-        self.__controlador_gravadora.abre_tela()
+        self.__controlador_artista_gravadora.abre_tela()
 
     def abre_tela(self):
         while True:

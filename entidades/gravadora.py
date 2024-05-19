@@ -32,6 +32,14 @@ class Gravadora:
     def email(self, email):
         self.__email = email
 
+    # @property
+    # def senha(self):
+    #     return self.__senha
+
+    # @senha.setter
+    # def senha(self, senha):
+    #     self.__senha = senha
+
     @property
     def telefone(self):
         return self.__telefone

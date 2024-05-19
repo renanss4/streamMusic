@@ -4,7 +4,7 @@ from entidades.musica import Musica  # Adicionando esta linha para importar a cl
 from controles.controlador_musica import ControladorMusica
 from controles.controlador_album import ControladorAlbum
 from controles.controlador_playlist import ControladorPlaylist
-# from controles.controlador_contrato import ControladorContrato
+from controles.controlador_contrato import ControladorContrato
 
 class ControladorArtista:
 
@@ -14,7 +14,7 @@ class ControladorArtista:
         self.__controlador_musicas = ControladorMusica(self)
         self.__controlador_albuns = ControladorAlbum(self)
         self.__controlador_playlists = ControladorPlaylist(self)
-        # self.__controlador_contratos = ControladorContrato(self)
+        self.__controlador_contratos = ControladorContrato(self)
         self.__controlador_sistema = controlador_sistema
 
     @property
@@ -127,6 +127,20 @@ class ControladorArtista:
         else:
             self.__tela_artista.mostrar_mensagem('ATENÇÃO: Artista não existente')
 
+    # Métodos para abrir as telas de músicas, álbuns e playlists
+    def abrir_musicas(self):
+        self.__controlador_musicas.abre_tela()
+
+    def abrir_albuns(self):
+        self.__controlador_albuns.abre_tela()
+
+    def abrir_playlists(self):
+        self.__controlador_playlists.abre_tela()
+
+    def abrir_contratos(self):
+        self.__controlador_contratos.abre_tela()
+
+    # Métodos de retorno e abertura da tela principal do controlador de artista
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
@@ -147,6 +161,16 @@ class ControladorArtista:
             elif opcao == 5:
                 self.cadastrar_musica()
             elif opcao == 6:
-                self.ver_musicas_do_artista()
+                self.abrir_albuns()
+            elif opcao == 7:
+                self.abrir_playlists()
+            elif opcao == 8:
+                self.abrir_contratos()
+            elif opcao == 9:
+                self.seguir_artista()
+            elif opcao == 10:
+                self.deixar_de_seguir_artista()
+            elif opcao == 11:
+                self.ver_artistas_seguidos()
             else:
                 self.__tela_artista.mostrar_mensagem('Opção Inválida!')

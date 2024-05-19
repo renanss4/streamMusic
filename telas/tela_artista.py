@@ -1,6 +1,30 @@
 class TelaArtista:
-    def __init__(self):
-        pass
+
+    def imprimir_opcoes(self):
+        print('\n---------- ARTISTA ----------')
+        print("Escolha a opção:")
+        print("1 - Cadastrar Artista")
+        print("2 - Listar Artistas")
+        print("3 - Editar Artista")
+        print("4 - Excluir Artista")
+        print("5 - Página de Músicas")
+        print("6 - Página de Álbuns")
+        print("7 - Página de Playlists")
+        print("8 - Página de Contratos")
+        print("9 - Seguir Artista")
+        print("10 - Deixar de Seguir Artista")
+        print("11 - Ver Artistas Seguidos")
+        print("0 - Retornar")
+
+        while True:
+            try:
+                opcao = int(input("Escolha a opção: "))
+                if 0 <= opcao <= 11:
+                    return opcao
+                else:
+                    print("Opção inválida! Escolha uma opção entre 0 e 11.")
+            except ValueError:
+                print("Entrada inválida! Digite um número.")
 
     def pegar_dados_artista(self):
         print("----- Cadastrar Artista -----")
