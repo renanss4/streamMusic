@@ -1,14 +1,19 @@
 class TelaPlaylist:
 
     def imprimir_opcoes(self):
-        print('\n')
-        print('---------- PLAYLIST ----------')
-        print("Escolha a opção")
-        print("1 - Cadastrar Playlist")
-        print("2 - Listar Playlists")
-        print("3 - Editar Playlist")
-        print("4 - Excluir Playlist")
-        print("0 - Retornar")
+        """
+        Mostra as opções disponíveis para o usuário e retorna a escolha.
+        """
+        print()
+        print("##################################")
+        print('# ---------- PLAYLIST ---------- #')
+        print("# Escolha a opção                #")
+        print("# 1 - Cadastrar Playlist         #")
+        print("# 2 - Listar Playlists           #")
+        print("# 3 - Editar Playlist            #")
+        print("# 4 - Excluir Playlist           #")
+        print("# 0 - Retornar                   #")
+        print("##################################")
 
         while True:
             try:
@@ -21,8 +26,10 @@ class TelaPlaylist:
                 print("Entrada inválida! Digite um número.")
 
     def pegar_dados_playlist(self):
-        print('\n')
-        print("-------- CADASTRAR/EDITAR PLAYLIST ----------")
+        """
+        Solicita e retorna os dados de uma nova playlist.
+        """
+        print('\n-------- CADASTRAR/EDITAR PLAYLIST ----------')
         while True:
             nome = input("Nome: ").strip()
             if nome:
@@ -33,13 +40,17 @@ class TelaPlaylist:
         return {'nome': nome, 'descricao': descricao}
 
     def mostrar_playlists(self, playlists_dados):
-        print('\n')
-        print("-------- DETALHES DA PLAYLIST ----------")
+        """
+        Mostra os detalhes das playlists cadastradas.
+        """
+        print('\n-------- DETALHES DA PLAYLIST ----------')
         for dados_playlist in playlists_dados:
             print("Nome:", dados_playlist["nome"])
             print("Descrição:", dados_playlist["descricao"])
             print('--------------------------------')
 
     def mostrar_mensagem(self, msg):
-        print('\n')
+        """
+        Mostra uma mensagem na tela.
+        """
         print('\n' + msg + '\n')

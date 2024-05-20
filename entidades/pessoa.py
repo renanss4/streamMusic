@@ -2,6 +2,7 @@ from abc import abstractmethod, ABC
 from entidades.playlist import Playlist
 from datetime import date
 
+
 class Pessoa(ABC):
     @abstractmethod
     def __init__(self, nome: str, email: str, telefone: int, data_nascimento: date):

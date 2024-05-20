@@ -1,22 +1,28 @@
 from datetime import datetime
 
+
 class TelaArtista:
 
     def imprimir_opcoes(self):
-        print('\n---------- ARTISTA ----------')
-        print("Escolha a opção:")
-        print("1 - Cadastrar Artista")
-        print("2 - Listar Artistas")
-        print("3 - Editar Artista")
-        print("4 - Excluir Artista")
-        print("5 - Página de Músicas")
-        print("6 - Página de Álbuns")
-        print("7 - Página de Playlists")
-        # print("8 - Página de Contratos")
-        print("8 - Seguir Artista")
-        print("9 - Deixar de Seguir Artista")
-        print("10 - Ver Artistas Seguidos")
-        print("0 - Retornar")
+        """
+        Mostra as opções disponíveis para o usuário e retorna a escolha.
+        """
+        print()
+        print('###################################')
+        print('# ---------- ARTISTA ----------   #')
+        print("# Escolha a opção:                #")
+        print("# 1 - Cadastrar Artista           #")
+        print("# 2 - Listar Artistas             #")
+        print("# 3 - Editar Artista              #")
+        print("# 4 - Excluir Artista             #")
+        print("# 5 - Página de Músicas           #")
+        print("# 6 - Página de Álbuns            #")
+        print("# 7 - Página de Playlists         #")
+        print("# 8 - Seguir Artista              #")
+        print("# 9 - Deixar de Seguir Artista    #")
+        print("# 10 - Ver Artistas Seguidos      #")
+        print("# 0 - Retornar                    #")
+        print('###################################')
 
         while True:
             try:
@@ -29,6 +35,9 @@ class TelaArtista:
                 print("Entrada inválida! Digite um número.")
 
     def pegar_dados_artista(self):
+        """
+        Solicita e retorna os dados de um novo artista.
+        """
         print("\n-------- CADASTRAR NOVO ARTISTA ----------")
         
         while True:
@@ -68,6 +77,9 @@ class TelaArtista:
         }
 
     def mostrar_artistas(self, artistas_dados):
+        """
+        Mostra os detalhes dos artistas cadastrados.
+        """
         print("\n-------- DETALHES DO ARTISTA ----------")
         for dados_artista in artistas_dados:
             print("Nome:", dados_artista["nome"])
@@ -77,12 +89,21 @@ class TelaArtista:
             print('--------------------------------')
 
     def buscar_artista(self):
+        """
+        Solicita o nome do artista que deseja buscar.
+        """
         nome = input('Nome do artista que deseja buscar: ').strip()
         return nome
 
     def pegar_nome_artista(self):
+        """
+        Solicita o nome de um artista.
+        """
         nome = input('Nome do artista: ').strip()
         return nome
 
     def mostrar_mensagem(self, msg):
+        """
+        Mostra uma mensagem na tela.
+        """
         print('\n' + msg + '\n')

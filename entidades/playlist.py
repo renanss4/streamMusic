@@ -1,5 +1,6 @@
 from entidades.musica import Musica
 
+
 class Playlist:
     def __init__(self, nome: str, descricao: str = '', musicas: list[Musica] = None):
         self.__nome = nome

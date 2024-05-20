@@ -1,14 +1,17 @@
 class TelaMusica:
     def imprimir_opcoes(self):
-        print('\n---------- MÚSICA ----------')
-        print("Escolha a opção:")
-        print("1 - Cadastrar Música")
-        print("2 - Listar Músicas")
-        print("3 - Editar Música")
+        print()
+        print("################################")
+        print('# ---------- MÚSICA ---------- #')
+        print("# Escolha a opção:             #")
+        print("# 1 - Cadastrar Música         #")
+        print("# 2 - Listar Músicas           #")
+        print("# 3 - Editar Música            #")
         # print("4 - Adicionar Música à Playlist ou Álbum")
         # print("5 - Remover Música de Playlist ou Álbum")
-        print("6 - Excluir Música")
-        print("0 - Retornar")
+        print("# 4 - Excluir Música           #")
+        print("# 0 - Retornar                 #")
+        print("################################")
 
         while True:
             try:

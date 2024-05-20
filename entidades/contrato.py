@@ -2,6 +2,7 @@ from entidades.artista import Artista
 from entidades.gravadora import Gravadora
 from datetime import date
 
+
 class Contrato:
     def __init__(self, numero: int, artista: Artista, gravadora: Gravadora, data_inicio: date, data_fim: date):
         self.__numero = numero

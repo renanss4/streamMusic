@@ -1,20 +1,26 @@
 from datetime import datetime
 
+
 class TelaUsuario:
 
     def imprimir_opcoes(self):
-        print('\n')
-        print('---------- USUÁRIO ----------')
-        print("Escolha a opção:")
-        print("1 - Cadastrar Usuário")
-        print("2 - Listar Usuários")
-        print("3 - Editar Usuário")
-        print("4 - Excluir Usuário")
-        print("5 - Página de Playlists")
-        print("6 - Seguir Artista")
-        print("7 - Deixar de Seguir Artista")
-        print("8 - Ver Artistas Seguidos")
-        print("0 - Retornar")
+        """
+        Mostra as opções disponíveis para o usuário e retorna a escolha.
+        """
+        print()
+        print("#################################")
+        print('# ---------- USUÁRIO ---------- #')
+        print("# Escolha a opção:              #")
+        print("# 1 - Cadastrar Usuário         #")
+        print("# 2 - Listar Usuários           #")
+        print("# 3 - Editar Usuário            #")
+        print("# 4 - Excluir Usuário           #")
+        print("# 5 - Página de Playlists       #")
+        print("# 6 - Seguir Artista            #")
+        print("# 7 - Deixar de Seguir Artista  #")
+        print("# 8 - Ver Artistas Seguidos     #")
+        print("# 0 - Retornar                  #")
+        print("#################################")
 
         while True:
             try:
@@ -27,8 +33,10 @@ class TelaUsuario:
                 print("Entrada inválida! Digite um número.")
 
     def pegar_dados_usuario(self):
-        print('\n')
-        print("-------- CADASTRAR NOVO USUÁRIO ----------")
+        """
+        Solicita e retorna os dados de um novo usuário.
+        """
+        print('\n-------- CADASTRAR NOVO USUÁRIO ----------')
 
         while True:
             nome = input("Nome: ").strip()
@@ -67,8 +75,10 @@ class TelaUsuario:
         }
 
     def mostrar_usuarios(self, usuarios_dados):
-        print('\n')
-        print('-------- DETALHES DOS USUÁRIOS ----------')
+        """
+        Mostra os detalhes dos usuários cadastrados.
+        """
+        print('\n-------- DETALHES DOS USUÁRIOS ----------')
         for dados_usuario in usuarios_dados:
             print('Nome:', dados_usuario['nome'])
             print('Email:', dados_usuario['email'])
@@ -77,16 +87,24 @@ class TelaUsuario:
             print('--------------------------------')
 
     def buscar_usuario(self):
+        """
+        Solicita o nome do usuário para buscar suas informações.
+        """
         nome = input('Nome do usuário que deseja buscar: ').strip()
         return nome
 
     def pegar_nome_artista(self):
+        """
+        Solicita o nome do artista.
+        """
         nome = input('Nome do artista: ').strip()
         return nome
 
     def mostrar_artistas_seguidos(self, artistas_dados):
-        print('\n')
-        print('-------- ARTISTAS SEGUIDOS ----------')
+        """
+        Mostra os detalhes dos artistas seguidos pelo usuário.
+        """
+        print('\n-------- ARTISTAS SEGUIDOS ----------')
         for dados_artista in artistas_dados:
             print('Nome:', dados_artista['nome'])
             print('Email:', dados_artista['email'])
@@ -95,5 +113,7 @@ class TelaUsuario:
             print('--------------------------------')
 
     def mostrar_mensagem(self, msg):
-        print('\n')
+        """
+        Mostra uma mensagem na tela.
+        """
         print('\n' + msg + '\n')

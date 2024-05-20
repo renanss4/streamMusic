@@ -3,9 +3,13 @@ from controles.controlador_usuario import ControladorUsuario
 from controles.controlador_artista import ControladorArtista
 from controles.controlador_gravadora import ControladorGravadora
 
+
+
 class ControladorSistema:
+    """Controlador principal do sistema."""
 
     def __init__(self) -> None:
+        """Inicializa o controlador do sistema."""
         self.__tela_sistema = TelaSistema()
         self.__controlador_usuarios = ControladorUsuario(self)
         self.__controlador_artistas = ControladorArtista(self)
@@ -24,22 +28,28 @@ class ControladorSistema:
         return self.__controlador_gravadoras
 
     def abrir_usuarios(self):
+        """Abre o controlador de usuários."""
         self.__controlador_usuarios.abre_tela()
 
     def abrir_artistas(self):
+        """Abre o controlador de artistas."""
         self.__controlador_artistas.abre_tela()
 
     def abrir_gravadoras(self):
+        """Abre o controlador de gravadoras."""
         self.__controlador_gravadoras.abre_tela()
 
     def inicializar_sistema(self):
+        """Inicia o sistema."""
         self.abre_tela()
 
     def encerrar_sistema(self):
+        """Encerra o sistema."""
         self.__tela_sistema.mostrar_mensagem("Encerrando o sistema...")
         exit(0)
 
     def abre_tela(self):
+        """Abre a tela principal do sistema."""
         while True:
             opcao = self.__tela_sistema.imprimir_opcoes()
             if opcao == 0:

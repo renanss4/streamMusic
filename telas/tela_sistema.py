@@ -1,5 +1,8 @@
 class TelaSistema:
     def imprimir_opcoes(self):
+        """
+        Mostra as opções disponíveis para o usuário e retorna a escolha.
+        """
         print('\n')
         print("################################")
         print("# --------StreamMusic--------- #")
@@ -22,5 +25,8 @@ class TelaSistema:
                 print('\n' + "Entrada inválida! Digite um número." + '\n')
     
     def mostrar_mensagem(self, msg):
+        """
+        Mostra uma mensagem na tela.
+        """
         print('\n')
         print('\n' + msg + '\n')

@@ -1,20 +1,26 @@
 from telas.tela_contrato import TelaContrato
 from entidades.contrato import Contrato
-from entidades.gravadora import Gravadora
+# from entidades.gravadora import Gravadora
+
 
 class ControladorContrato:
+    """Controlador para gerenciar operações relacionadas a contratos."""
+
     def __init__(self, controlador_gravadora):
+        """Inicializa o controlador de contrato."""
         self.__contratos = []
         self.__tela_contrato = TelaContrato()
         self.__controlador_gravadora = controlador_gravadora
 
     def pegar_contrato_pelo_numero(self, numero: int):
+        """Retorna o contrato correspondente ao número fornecido."""
         for contrato in self.__contratos:
             if contrato.numero == numero:
                 return contrato
         return None
     
     def listar_contratos(self):
+        """Lista todos os contratos cadastrados."""
         if self.__contratos:
             contratos_dados = []
             for contrato in self.__contratos:
@@ -30,6 +36,7 @@ class ControladorContrato:
             self.__tela_contrato.mostrar_mensagem("Nenhum contrato cadastrado.")
 
     def cadastrar_contrato(self):
+        """Realiza o cadastro de um novo contrato."""
         dados_contrato = self.__tela_contrato.pegar_dados_contrato()
         numero = int(dados_contrato['numero'])  # Convertendo para int
         artista = dados_contrato['artista']
@@ -46,65 +53,88 @@ class ControladorContrato:
                 self.__tela_contrato.mostrar_mensagem("Contrato já existente!")
                 return
 
-        # Verifica se o artista está cadastrado
-        # artista = self.__controlador_artista_gravadora.pegar_artista_pelo_nome(dados_contrato['artista'])
-        # if not artista:
-        #     self.__tela_contrato.mostrar_mensagem("Artista não cadastrado!")
-        #     return
-
         # Verifica se a gravadora está cadastrada
         gravadora = self.__controlador_gravadora.pegar_gravadora_pelo_nome(gravadora_nome)
         if not gravadora:
             self.__tela_contrato.mostrar_mensagem("Gravadora não cadastrada!")
             return
 
-        # Verifica se o contrato já existe
-        # for contrato in self.__contratos:
-        #     if contrato.numero == numero and contrato.artista == artista and contrato.gravadora == gravadora:
-        #         self.__tela_contrato.mostrar_mensagem("Contrato já existente!")
-        #         return
-
         contrato = Contrato(numero, artista, gravadora, data_inicio, data_fim)
         self.__contratos.append(contrato)
         self.__tela_contrato.mostrar_mensagem(f"Contrato de Nº {contrato.numero} adicionado com sucesso.")
 
     def buscar_contrato_por_artista(self):
+        """Busca e exibe contratos de um determinado artista."""
         artista = self.__tela_contrato.buscar_por_artista()
-        contratos_encontrados = [contrato for contrato in self.__contratos if contrato.artista == artista]
+        contratos_encontrados = []
+        for contrato in self.__contratos:
+            if contrato.artista == artista:
+                contratos_encontrados.append(contrato)
+
         if contratos_encontrados:
-            contratos_dados = [{'numero': contrato.numero, 'artista': contrato.artista, 'gravadora': contrato.gravadora.nome, 'data_inicio': contrato.data_inicio, 'data_fim': contrato.data_fim} for contrato in contratos_encontrados]
+            contratos_dados = []
+            for contrato in contratos_encontrados:
+                contrato_dado = {
+                    'numero': contrato.numero,
+                    'artista': contrato.artista,
+                    'gravadora': contrato.gravadora.nome,
+                    'data_inicio': contrato.data_inicio,
+                    'data_fim': contrato.data_fim
+                }
+                contratos_dados.append(contrato_dado)
             self.__tela_contrato.mostrar_contratos(contratos_dados)
         else:
             self.__tela_contrato.mostrar_mensagem(f"Nenhum contrato encontrado para o artista {artista}.")
 
     def buscar_contrato_por_gravadora(self):
+        """Busca e exibe contratos de uma determinada gravadora."""
         gravadora_nome = self.__tela_contrato.buscar_por_gravadora()
-        contratos_encontrados = [contrato for contrato in self.__contratos if contrato.gravadora.nome == gravadora_nome]
+        contratos_encontrados = []
+        for contrato in self.__contratos:
+            if contrato.gravadora.nome == gravadora_nome:
+                contratos_encontrados.append(contrato)
+
         if contratos_encontrados:
-            contratos_dados = [{'numero': contrato.numero, 'artista': contrato.artista, 'gravadora': contrato.gravadora.nome, 'data_inicio': contrato.data_inicio, 'data_fim': contrato.data_fim} for contrato in contratos_encontrados]
+            contratos_dados = []
+            for contrato in contratos_encontrados:
+                contrato_dado = {
+                    'numero': contrato.numero,
+                    'artista': contrato.artista,
+                    'gravadora': contrato.gravadora.nome,
+                    'data_inicio': contrato.data_inicio,
+                    'data_fim': contrato.data_fim
+                }
+                contratos_dados.append(contrato_dado)
             self.__tela_contrato.mostrar_contratos(contratos_dados)
         else:
             self.__tela_contrato.mostrar_mensagem(f"Nenhum contrato encontrado para a gravadora {gravadora_nome}.")
 
     def buscar_contrato_pelo_numero(self):
-        numero = self.__tela_contrato.buscar_por_numero()
-        contrato = self.pegar_contrato_pelo_numero(numero)
+        """Busca um contrato pelo número e exibe suas informações."""
+        numero = self.__tela_contrato.buscar_por_numero()  # Obtém o número do contrato da tela
+        contrato = self.pegar_contrato_pelo_numero(numero)  # Busca o contrato pelo número
+        
         if contrato:
-            contratos_dados = [{
+            # Cria uma lista com um único dicionário contendo as informações do contrato encontrado
+            contratos_dados = []
+            contrato_dado = {
                 'numero': contrato.numero,
                 'artista': contrato.artista,
                 'gravadora': contrato.gravadora.nome,
                 'data_inicio': contrato.data_inicio,
                 'data_fim': contrato.data_fim
-            }]
-            self.__tela_contrato.mostrar_contratos(contratos_dados)
+            }
+            contratos_dados.append(contrato_dado)  # Adiciona o dicionário à lista
+            self.__tela_contrato.mostrar_contratos(contratos_dados)  # Exibe os contratos na tela
         else:
-            self.__tela_contrato.mostrar_mensagem(f"Nenhum contrato encontrado com o número {numero}.")
+            self.__tela_contrato.mostrar_mensagem(f"Nenhum contrato encontrado com o número {numero}.")  # Mensagem de erro
 
     def retornar(self):
+        """Retorna ao controlador de gravadora."""
         self.__controlador_gravadora.abre_tela()
 
     def abre_tela(self):
+        """Abre a tela do controlador de contrato."""
         while True:
             opcao = self.__tela_contrato.imprimir_opcoes()
             if opcao == 0:

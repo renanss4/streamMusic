@@ -2,20 +2,26 @@ from telas.tela_gravadora import TelaGravadora
 from entidades.gravadora import Gravadora
 from controles.controlador_contrato import ControladorContrato
 
+
 class ControladorGravadora:
+    """Controlador para gerenciar operações relacionadas a gravadoras."""
+
     def __init__(self, controlador_sistema):
+        """Inicializa o controlador de gravadora."""
         self.__gravadoras = []
         self.__tela_gravadora = TelaGravadora()
         self.__controlador_contratos = ControladorContrato(self)
         self.__controlador_sistema = controlador_sistema
 
     def pegar_gravadora_pelo_nome(self, nome: str):
+        """Retorna a gravadora correspondente ao nome fornecido."""
         for gravadora in self.__gravadoras:
             if gravadora.nome == nome:
                 return gravadora
         return None
     
     def listar_gravadoras(self):
+        """Lista todas as gravadoras cadastradas."""
         if self.__gravadoras:
             gravadoras_dados = [{'nome': gravadora.nome, 'email': gravadora.email,
                                  'telefone': gravadora.telefone} for gravadora in self.__gravadoras]
@@ -24,6 +30,7 @@ class ControladorGravadora:
             self.__tela_gravadora.mostrar_mensagem("Nenhuma gravadora cadastrada.")
 
     def cadastrar_gravadora(self):
+        """Realiza o cadastro de uma nova gravadora."""
         dados_gravadora = self.__tela_gravadora.pegar_dados_gravadora()
         if self.pegar_gravadora_pelo_nome(dados_gravadora['nome']):
             self.__tela_gravadora.mostrar_mensagem("Gravadora já cadastrada!")
@@ -37,6 +44,7 @@ class ControladorGravadora:
             self.__tela_gravadora.mostrar_mensagem(f"Gravadora {gravadora.nome} adicionada com sucesso.")
 
     def editar_gravadora(self):
+        """Permite a edição dos dados de uma gravadora."""
         if not self.__gravadoras:
             self.__tela_gravadora.mostrar_mensagem("Nenhuma gravadora cadastrada.")
             return
@@ -55,6 +63,7 @@ class ControladorGravadora:
             self.__tela_gravadora.mostrar_mensagem('ATENÇÃO: Gravadora não existente')
 
     def remover_gravadora(self):
+        """Remove uma gravadora."""
         if not self.__gravadoras:
             self.__tela_gravadora.mostrar_mensagem("Nenhuma gravadora cadastrada.")
             return
@@ -71,12 +80,15 @@ class ControladorGravadora:
             self.__tela_gravadora.mostrar_mensagem("ATENÇÃO: Gravadora não existente")
 
     def abrir_contratos(self):
+        """Abre o controlador de contrato."""
         self.__controlador_contratos.abre_tela()
 
     def retornar(self):
+        """Retorna ao controlador de sistema."""
         self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
+        """Abre a tela do controlador de gravadora."""
         while True:
             opcao = self.__tela_gravadora.imprimir_opcoes()
             if opcao == 0:

@@ -1,14 +1,19 @@
 class TelaAlbum:
 
     def imprimir_opcoes(self):
-        print('\n')
-        print('---------- ÁLBUM ----------')
-        print("Escolha a opção:")
-        print("1 - Cadastrar Álbum")
-        print("2 - Listar Álbuns")
-        print("3 - Editar Álbum")
-        print("4 - Excluir Álbum")
-        print("0 - Retornar")
+        """
+        Mostra as opções disponíveis para o usuário e retorna a escolha.
+        """
+        print()
+        print('################################')
+        print('# ---------- ÁLBUM ----------  #')
+        print("# Escolha a opção:             #")
+        print("# 1 - Cadastrar Álbum          #")
+        print("# 2 - Listar Álbuns            #")
+        print("# 3 - Editar Álbum             #")
+        print("# 4 - Excluir Álbum            #")
+        print("# 0 - Retornar                 #")
+        print('################################')
 
         while True:
             try:
@@ -21,8 +26,10 @@ class TelaAlbum:
                 print("Entrada inválida! Digite um número.")
 
     def pegar_dados_album(self):
-        print('\n')
-        print("-------- CADASTRAR/EDITAR ÁLBUM ----------")
+        """
+        Solicita e retorna os dados de um álbum (nome e descrição).
+        """
+        print('\n-------- CADASTRAR/EDITAR ÁLBUM ----------')
         while True:
             nome = input("Nome: ").strip()
             if nome:
@@ -33,18 +40,25 @@ class TelaAlbum:
         return {'nome': nome, 'descricao': descricao}
     
     def mostrar_albuns(self, albuns_dados):
-        print('\n')
-        print('-------- DETALHES DOS ÁLBUNS CADASTRADOS ----------')
+        """
+        Mostra os detalhes dos álbuns cadastrados.
+        """
+        print('\n-------- DETALHES DOS ÁLBUNS CADASTRADOS ----------')
         for dados_album in albuns_dados:
             print('Nome:', dados_album['nome'])
             print('Descrição:', dados_album['descricao'])
             print('--------------------------------')
 
     def buscar_album(self):
+        """
+        Solicita o nome do álbum que deseja buscar.
+        """
         print('\n')
         nome = input('Nome do álbum que deseja buscar: ').strip()
         return nome
     
     def mostrar_mensagem(self, msg):
-        print('\n')
+        """
+        Mostra uma mensagem na tela.
+        """
         print('\n' + msg + '\n')

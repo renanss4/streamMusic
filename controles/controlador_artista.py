@@ -31,7 +31,8 @@ class ControladorArtista:
         artista = self.pegar_artista_pelo_nome(nome_artista)
 
         if artista:
-            artista_seguir = self.pegar_artista_pelo_nome(nome_artista)
+            nome_artista_seguir = self.__tela_artista.pegar_nome_artista()
+            artista_seguir = self.pegar_artista_pelo_nome(nome_artista_seguir)
 
             if artista_seguir:
                 artista.artistas_seguidos.append(artista_seguir)
@@ -51,7 +52,8 @@ class ControladorArtista:
         artista = self.pegar_artista_pelo_nome(nome_artista)
 
         if artista:
-            artista_deixar = self.pegar_artista_pelo_nome(nome_artista)
+            nome_artista_deixar = self.__tela_artista.pegar_nome_artista()
+            artista_deixar = self.pegar_artista_pelo_nome(nome_artista_deixar)
 
             if artista_deixar:
                 if artista_deixar in artista.artistas_seguidos:
