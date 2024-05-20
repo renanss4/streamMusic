@@ -27,3 +27,16 @@ class Playlist:
     @property
     def musicas(self):
         return self.__musicas
+
+    # def adicionar_musica(self, musica):
+    #     if musica not in self.musicas:
+    #         self.musicas.append(musica)
+    #     else:
+    #         print("Música já existente na playlist!")
+
+    # def remover_musica(self, musica):
+    #     if musica in self.__musicas:
+    #         self.__musicas.remove(musica)
+    #         print("Música removida da playlist!")
+    #     else:
+    #         print("Música não existente na playlist!")

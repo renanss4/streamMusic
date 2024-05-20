@@ -1,15 +1,12 @@
 from telas.tela_playlist import TelaPlaylist
 from entidades.playlist import Playlist
-# from telas.tela_musica import TelaMusica
 
 
 class ControladorPlaylist:
     def __init__(self, controlador_artista, controlador_musica) -> None:
         self.__playlists = []
         self.__tela_playlist = TelaPlaylist()
-        # self.__tela_musica = TelaMusica()
         self.__controlador_artista = controlador_artista
-        # self.__controlador_musica = controlador_musica
 
     def pegar_playlist_pelo_nome(self, nome: str):
         for playlist in self.__playlists:
