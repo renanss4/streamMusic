@@ -3,7 +3,7 @@ from entidades.playlist import Playlist
 
 
 class ControladorPlaylist:
-    def __init__(self, controlador_artista, controlador_musica) -> None:
+    def __init__(self, controlador_artista) -> None:
         self.__playlists = []
         self.__tela_playlist = TelaPlaylist()
         self.__controlador_artista = controlador_artista

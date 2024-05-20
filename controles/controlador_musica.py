@@ -2,7 +2,7 @@ from telas.tela_musica import TelaMusica
 from entidades.musica import Musica
 
 class ControladorMusica:
-    def __init__(self, controlador_artista, controlador_album, controlador_playlist) -> None:
+    def __init__(self, controlador_artista) -> None:
         self.__musicas = []
         self.__tela_musica = TelaMusica()
         self.__controlador_artista = controlador_artista
