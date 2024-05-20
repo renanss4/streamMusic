@@ -31,7 +31,7 @@ class ControladorContrato:
 
     def cadastrar_contrato(self):
         dados_contrato = self.__tela_contrato.pegar_dados_contrato()
-        numero = dados_contrato['numero']
+        numero = int(dados_contrato['numero'])  # Convertendo para int
         artista = dados_contrato['artista']
         gravadora_nome = dados_contrato['gravadora']
         data_inicio = dados_contrato['data_inicio']
