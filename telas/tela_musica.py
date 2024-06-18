@@ -1,101 +1,102 @@
-class TelaMusica:
-    def imprimir_opcoes(self):
-        print()
-        print("################################")
-        print('# ---------- MÚSICA ---------- #')
-        print("# Escolha a opção:             #")
-        print("# 1 - Cadastrar Música         #")
-        print("# 2 - Listar Músicas           #")
-        print("# 3 - Editar Música            #")
-        # print("4 - Adicionar Música à Playlist ou Álbum")
-        # print("5 - Remover Música de Playlist ou Álbum")
-        print("# 4 - Excluir Música           #")
-        print("# 0 - Retornar                 #")
-        print("################################")
+import PySimpleGUI as sg # type: ignore
 
+class TelaMusica:
+    def __init__(self):
+        self.__window = None
+
+    def imprimir_opcoes(self):
+        """
+        Mostra as opções disponíveis para o usuário e retorna a escolha.
+        """
+        self.init_components()
         while True:
-            try:
-                opcao = int(input("Escolha a opção: "))
-                if 0 <= opcao <= 6:
-                    return opcao
+            event, values = self.__window.read()
+            if event in (None, 'Cancelar'):
+                opcao = 0
+                break
+            if event == 'Confirmar':
+                for key, value in values.items():
+                    if value:
+                        opcao = int(key)
+                        break
+                if 0 <= opcao <= 4:
+                    break
                 else:
-                    print("Opção inválida! Escolha uma opção entre 0 e 6.")
-            except ValueError:
-                print("Entrada inválida! Digite um número.")
+                    sg.popup('Opção inválida! Escolha uma opção entre 0 e 4.')
+        self.__window.close()
+        return opcao
 
     def pegar_dados_musica(self):
-        print('\n-------- CADASTRAR/EDITAR MÚSICA ----------')
+        """
+        Solicita e retorna os dados de uma nova música.
+        """
+        layout = [
+            [sg.Text('Nome'), sg.InputText(key='nome')],
+            [sg.Text('Letra da Música'), sg.Multiline(key='letra')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Cadastrar/Editar Música', layout)
         while True:
-            nome = input("Nome: ").strip()
-            if nome:
+            event, values = window.read()
+            if event in (None, 'Cancelar'):
+                values = None
                 break
-            else:
-                print("Nome não pode ser vazio!")
-
-        letra = input("Letra da música: ").strip()
-        return {'nome': nome, 'letra': letra}
+            if event == 'Confirmar':
+                nome = values['nome'].strip()
+                letra = values['letra'].strip()
+                if nome:
+                    values = {'nome': nome, 'letra': letra}
+                    break
+                else:
+                    sg.popup("Nome não pode ser vazio!")
+        window.close()
+        return values
 
     def mostrar_musicas(self, musicas_dados):
-        print('\n-------- DETALHES DAS MÚSICAS CADASTRADAS ----------')
-        for dados_musica in musicas_dados:
-            print('Nome:', dados_musica['nome'])
-            print('Letra:', dados_musica['letra'])
-            print('--------------------------------')
+        """
+        Mostra os detalhes das músicas cadastradas.
+        """
+        layout = [
+            [sg.Text('Detalhes das Músicas Cadastradas', font=("Helvetica", 15))],
+            [sg.Multiline('\n'.join([f"Nome: {musica['nome']}\nLetra: {musica['letra']}\n" for musica in musicas_dados]), size=(50, 10))],
+            [sg.Button('Ok')]
+        ]
+        window = sg.Window('Músicas Cadastradas', layout)
+        window.read()
+        window.close()
 
     def buscar_musica(self):
-        nome = input('Nome da música que deseja buscar: ').strip()
-        return nome
-
-    # def pegar_dados_adicao_musica(self):
-    #     print('\n-------- ADICIONAR MÚSICA À PLAYLIST/ÁLBUM ----------')
-    #     while True:
-    #         nome_musica = input("Nome da música: ").strip()
-    #         if nome_musica:
-    #             break
-    #         else:
-    #             print("Nome da música não pode ser vazio!")
-
-    #     while True:
-    #         tipo = input("Você deseja adicionar a música a uma playlist (1) ou álbum (2)? ").strip()
-    #         if tipo in ['1', '2']:
-    #             break
-    #         else:
-    #             print("Entrada inválida! Digite '1' para playlist ou '2' para álbum.")
-
-    #     while True:
-    #         nome_playlist_album = input("Nome da playlist/álbum: ").strip()
-    #         if nome_playlist_album:
-    #             break
-    #         else:
-    #             print("Nome da playlist/álbum não pode ser vazio!")
-
-    #     return {'nome_musica': nome_musica, 'tipo': tipo, 'nome_playlist_album': nome_playlist_album}
-    
-    # def pegar_dados_remocao_musica(self):
-    #     print('\n-------- REMOVER MÚSICA DE PLAYLIST/ÁLBUM ----------')
-    #     while True:
-    #         nome_musica = input("Nome da música: ").strip()
-    #         if nome_musica:
-    #             break
-    #         else:
-    #             print("Nome da música não pode ser vazio!")
-
-    #     while True:
-    #         tipo = input("Você deseja remover a música de uma playlist (1) ou álbum (2)? ").strip()
-    #         if tipo in ['1', '2']:
-    #             break
-    #         else:
-    #             print("Entrada inválida! Digite '1' para playlist ou '2' para álbum.")
-
-    #     while True:
-    #         nome_playlist_album = input("Nome da playlist/álbum: ").strip()
-    #         if nome_playlist_album:
-    #             break
-    #         else:
-    #             print("Nome da playlist/álbum não pode ser vazio!")
-
-    #     return {'nome_musica': nome_musica, 'tipo': tipo, 'nome_playlist_album': nome_playlist_album}
+        """
+        Solicita o nome da música que deseja buscar.
+        """
+        layout = [
+            [sg.Text('Nome da música que deseja buscar'), sg.InputText(key='nome')],
+            [sg.Button('Buscar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Buscar Música', layout)
+        event, values = window.read()
+        window.close()
+        if event == 'Buscar':
+            return values['nome'].strip()
+        return None
 
     def mostrar_mensagem(self, msg):
-        print('\n')
-        print('\n' + msg + '\n')
+        """
+        Mostra uma mensagem na tela.
+        """
+        sg.popup(msg)
+
+    def init_components(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('MÚSICA', font=("Helvetica", 25))],
+            [sg.Text('Escolha a opção:', font=("Helvetica", 15))],
+            [sg.Radio('Cadastrar Música', "RD1", key='1')],
+            [sg.Radio('Listar Músicas', "RD1", key='2')],
+            [sg.Radio('Editar Música', "RD1", key='3')],
+            [sg.Radio('Excluir Música', "RD1", key='4')],
+            [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Música').Layout(layout)
+

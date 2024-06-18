@@ -1,121 +1,153 @@
+import PySimpleGUI as sg # type: ignore
 from datetime import datetime
 
-
 class TelaContrato:
+    def __init__(self):
+        self.__window = None
 
     def imprimir_opcoes(self):
         """
         Mostra as opções disponíveis para o usuário e retorna a escolha.
         """
-        print()
-        print("######################################")
-        print('# ---------- CONTRATO ----------     #')
-        print("# Escolha a opção:                   #")
-        print("# 1 - Cadastrar Contrato             #")
-        print("# 2 - Listar Contratos               #")
-        print("# 3 - Buscar Contratos por Artista   #")
-        print("# 4 - Buscar Contratos por Gravadora #")
-        print("# 5 - Buscar Contrato por Número     #")
-        print("# 0 - Retornar                       #")
-        print("######################################")
-
+        self.init_components()
         while True:
-            try:
-                opcao = int(input("Escolha a opção: "))
+            event, values = self.__window.read()
+            if event in (None, 'Cancelar'):
+                opcao = 0
+                break
+            if event == 'Confirmar':
+                for key, value in values.items():
+                    if value:
+                        opcao = int(key)
+                        break
                 if 0 <= opcao <= 5:
-                    return opcao
+                    break
                 else:
-                    print("Opção inválida! Escolha uma opção entre 0 e 5.")
-            except ValueError:
-                print("Entrada inválida! Digite um número.")
+                    sg.popup('Opção inválida! Escolha uma opção entre 0 e 5.')
+        self.__window.close()
+        return opcao
 
     def pegar_dados_contrato(self):
         """
         Solicita e retorna os dados de um novo contrato.
         """
-        print('\n-------- CADASTRAR NOVO CONTRATO ----------')
+        layout = [
+            [sg.Text('Número'), sg.InputText(key='numero')],
+            [sg.Text('Artista'), sg.InputText(key='artista')],
+            [sg.Text('Gravadora'), sg.InputText(key='gravadora')],
+            [sg.Text('Data de Início (YYYY-MM-DD)'), sg.InputText(key='data_inicio')],
+            [sg.Text('Data de Fim (YYYY-MM-DD)'), sg.InputText(key='data_fim')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Cadastrar Novo Contrato', layout)
         while True:
-            numero = input("Número: ").strip()
-            if numero.isdigit():
+            event, values = window.read()
+            if event in (None, 'Cancelar'):
+                values = None
                 break
-            else:
-                print("Número deve conter apenas números!")
-        
-        while True:
-            artista = input("Artista: ").strip()
-            if artista:
-                break
-            else:
-                print("Nome do artista não pode ser vazio!")
-        
-        while True:
-            gravadora = input('Gravadora: ').strip()
-            if gravadora:
-                break
-            else:
-                print("Nome da gravadora não pode ser vazio!")
-
-        while True:
-            try:
-                data_inicio = input('Data de Início (YYYY-MM-DD): ')
-                data_inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
-                break
-            except ValueError:
-                print("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
-        
-        while True:
-            try:
-                data_fim = input('Data de Fim (YYYY-MM-DD): ')
-                data_fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
-                if data_inicio > data_fim:
-                    print("A data de início não pode ser maior que a data de fim!")
-                    continue
-                break
-            except ValueError:
-                print("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
-        
-        return {'numero': numero, "artista": artista, "gravadora": gravadora, 'data_inicio': data_inicio, 'data_fim': data_fim}
+            if event == 'Confirmar':
+                numero = values['numero'].strip()
+                artista = values['artista'].strip()
+                gravadora = values['gravadora'].strip()
+                data_inicio_str = values['data_inicio'].strip()
+                data_fim_str = values['data_fim'].strip()
+                try:
+                    data_inicio = datetime.strptime(data_inicio_str, '%Y-%m-%d').date()
+                    data_fim = datetime.strptime(data_fim_str, '%Y-%m-%d').date()
+                    if numero.isdigit() and artista and gravadora and data_inicio <= data_fim:
+                        values = {
+                            "numero": numero,
+                            "artista": artista,
+                            "gravadora": gravadora,
+                            "data_inicio": data_inicio,
+                            "data_fim": data_fim
+                        }
+                        break
+                    else:
+                        sg.popup("Dados inválidos! Verifique se todos os campos estão corretos.")
+                except ValueError:
+                    sg.popup("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
+        window.close()
+        return values
 
     def mostrar_contratos(self, contratos_dados):
         """
         Mostra os detalhes dos contratos cadastrados.
         """
-        print('\n-------- DETALHES DOS CONTRATOS ----------')
-        for dados_contrato in contratos_dados:
-            print('Número:', dados_contrato['numero'])
-            print('Artista:', dados_contrato['artista'])
-            print('Gravadora:', dados_contrato['gravadora'])
-            print('Data de Início:', dados_contrato['data_inicio'])
-            print('Data de Fim:', dados_contrato['data_fim'])
-            print('--------------------------------')
+        layout = [
+            [sg.Text('Detalhes dos Contratos Cadastrados', font=("Helvetica", 15))],
+            [sg.Multiline('\n'.join([f"Número: {contrato['numero']}\nArtista: {contrato['artista']}\nGravadora: {contrato['gravadora']}\nData de Início: {contrato['data_inicio']}\nData de Fim: {contrato['data_fim']}\n" for contrato in contratos_dados]), size=(50, 10))],
+            [sg.Button('Ok')]
+        ]
+        window = sg.Window('Contratos Cadastrados', layout)
+        window.read()
+        window.close()
 
     def buscar_por_artista(self):
         """
         Solicita o nome do artista para buscar contratos associados a ele.
         """
-        artista = input('Nome do artista com contrato que deseja buscar: ')
-        return artista
+        layout = [
+            [sg.Text('Nome do artista com contrato que deseja buscar'), sg.InputText(key='artista')],
+            [sg.Button('Buscar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Buscar Contrato por Artista', layout)
+        event, values = window.read()
+        window.close()
+        if event == 'Buscar':
+            return values['artista'].strip()
+        return None
 
     def buscar_por_gravadora(self):
         """
         Solicita o nome da gravadora para buscar contratos associados a ela.
         """
-        gravadora = input('Nome da gravadora com contrato que deseja buscar: ')
-        return gravadora
+        layout = [
+            [sg.Text('Nome da gravadora com contrato que deseja buscar'), sg.InputText(key='gravadora')],
+            [sg.Button('Buscar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Buscar Contrato por Gravadora', layout)
+        event, values = window.read()
+        window.close()
+        if event == 'Buscar':
+            return values['gravadora'].strip()
+        return None
 
     def buscar_por_numero(self):
         """
         Solicita o número do contrato para buscar um contrato específico.
         """
-        while True:
+        layout = [
+            [sg.Text('Número do contrato que deseja buscar'), sg.InputText(key='numero')],
+            [sg.Button('Buscar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Buscar Contrato por Número', layout)
+        event, values = window.read()
+        window.close()
+        if event == 'Buscar':
             try:
-                numero = int(input('Número do contrato que deseja buscar: '))
-                return numero
+                return int(values['numero'].strip())
             except ValueError:
-                print("Entrada inválida! Por favor, insira um número.")
+                sg.popup("Entrada inválida! Por favor, insira um número.")
+        return None
 
     def mostrar_mensagem(self, msg):
         """
         Mostra uma mensagem na tela.
         """
-        print('\n' + msg + '\n')
+        sg.popup(msg)
+
+    def init_components(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('CONTRATO', font=("Helvetica", 25))],
+            [sg.Text('Escolha a opção:', font=("Helvetica", 15))],
+            [sg.Radio('Cadastrar Contrato', "RD1", key='1')],
+            [sg.Radio('Listar Contratos', "RD1", key='2')],
+            [sg.Radio('Buscar Contratos por Artista', "RD1", key='3')],
+            [sg.Radio('Buscar Contratos por Gravadora', "RD1", key='4')],
+            [sg.Radio('Buscar Contrato por Número', "RD1", key='5')],
+            [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Contrato').Layout(layout)

@@ -1,119 +1,147 @@
+import PySimpleGUI as sg # type: ignore
 from datetime import datetime
 
-
 class TelaUsuario:
+    def __init__(self):
+        self.__window = None
 
     def imprimir_opcoes(self):
         """
         Mostra as opções disponíveis para o usuário e retorna a escolha.
         """
-        print()
-        print("#################################")
-        print('# ---------- USUÁRIO ---------- #')
-        print("# Escolha a opção:              #")
-        print("# 1 - Cadastrar Usuário         #")
-        print("# 2 - Listar Usuários           #")
-        print("# 3 - Editar Usuário            #")
-        print("# 4 - Excluir Usuário           #")
-        print("# 5 - Página de Playlists       #")
-        print("# 6 - Seguir Artista            #")
-        print("# 7 - Deixar de Seguir Artista  #")
-        print("# 8 - Ver Artistas Seguidos     #")
-        print("# 0 - Retornar                  #")
-        print("#################################")
-
+        self.init_components()
         while True:
-            try:
-                opcao = int(input("Escolha a opção: "))
+            event, values = self.__window.read()
+            if event in (None, 'Cancelar'):
+                opcao = 0
+                break
+            if event == 'Confirmar':
+                for key, value in values.items():
+                    if value:
+                        opcao = int(key)
+                        break
                 if 0 <= opcao <= 8:
-                    return opcao
+                    break
                 else:
-                    print("Opção inválida! Escolha uma opção entre 0 e 8.")
-            except ValueError:
-                print("Entrada inválida! Digite um número.")
+                    sg.popup('Opção inválida! Escolha uma opção entre 0 e 8.')
+        self.__window.close()
+        return opcao
 
     def pegar_dados_usuario(self):
         """
         Solicita e retorna os dados de um novo usuário.
         """
-        print('\n-------- CADASTRAR NOVO USUÁRIO ----------')
-
+        layout = [
+            [sg.Text('CADASTRAR NOVO USUÁRIO', font=("Helvetica", 15))],
+            [sg.Text('Nome'), sg.InputText(key='nome')],
+            [sg.Text('Email'), sg.InputText(key='email')],
+            [sg.Text('Telefone'), sg.InputText(key='telefone')],
+            [sg.Text('Data de Nascimento (YYYY-MM-DD)'), sg.InputText(key='data_nascimento')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Cadastrar Novo Usuário', layout)
         while True:
-            nome = input("Nome: ").strip()
-            if nome:
+            event, values = window.read()
+            if event in (None, 'Cancelar'):
+                values = None
                 break
-            else:
-                print("Nome não pode ser vazio!")
-
-        while True:
-            email = input("Email: ").strip()
-            if email:
-                break
-            else:
-                print("Email não pode ser vazio!")
-
-        while True:
-            telefone = input("Telefone: ").strip()
-            if telefone.isdigit():
-                break
-            else:
-                print("Telefone deve conter apenas números!")
-        
-        while True:
-            try:
-                data_nascimento = input('Data de Nascimento (YYYY-MM-DD): ')
-                data_nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d').date()
-                break
-            except ValueError:
-                print("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
-
-        return {
-            "nome": nome,
-            "email": email,
-            "telefone": telefone,
-            "data_nascimento": data_nascimento
-        }
+            if event == 'Confirmar':
+                nome = values['nome'].strip()
+                email = values['email'].strip()
+                telefone = values['telefone'].strip()
+                try:
+                    data_nascimento = datetime.strptime(values['data_nascimento'], '%Y-%m-%d').date()
+                except ValueError:
+                    sg.popup('Data inválida! Por favor, insira no formato YYYY-MM-DD.')
+                    continue
+                
+                if nome and email and telefone.isdigit():
+                    values = {'nome': nome, 'email': email, 'telefone': telefone, 'data_nascimento': data_nascimento}
+                    break
+                else:
+                    sg.popup('Preencha todos os campos corretamente!')
+        window.close()
+        return values
 
     def mostrar_usuarios(self, usuarios_dados):
         """
         Mostra os detalhes dos usuários cadastrados.
         """
-        print('\n-------- DETALHES DOS USUÁRIOS ----------')
-        for dados_usuario in usuarios_dados:
-            print('Nome:', dados_usuario['nome'])
-            print('Email:', dados_usuario['email'])
-            print('Telefone:', dados_usuario['telefone'])
-            print('Data de Nascimento:', dados_usuario['data_nascimento'])
-            print('--------------------------------')
+        layout = [
+            [sg.Text('DETALHES DOS USUÁRIOS CADASTRADOS', font=("Helvetica", 15))],
+            [sg.Multiline('\n'.join([f"Nome: {usuario['nome']}\nEmail: {usuario['email']}\nTelefone: {usuario['telefone']}\nData de Nascimento: {usuario['data_nascimento']}\n" for usuario in usuarios_dados]), size=(60, 10))],
+            [sg.Button('Ok')]
+        ]
+        window = sg.Window('Usuários Cadastrados', layout)
+        window.read()
+        window.close()
 
     def buscar_usuario(self):
         """
         Solicita o nome do usuário para buscar suas informações.
         """
-        nome = input('Nome do usuário que deseja buscar: ').strip()
-        return nome
+        layout = [
+            [sg.Text('Buscar Usuário', font=("Helvetica", 15))],
+            [sg.Text('Nome do usuário'), sg.InputText(key='nome')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Buscar Usuário', layout)
+        event, values = window.read()
+        window.close()
+        if event == 'Confirmar':
+            return values['nome'].strip()
+        return None
 
     def pegar_nome_artista(self):
         """
         Solicita o nome do artista.
         """
-        nome = input('Nome do artista: ').strip()
-        return nome
+        layout = [
+            [sg.Text('Nome do Artista', font=("Helvetica", 15))],
+            [sg.Text('Nome do artista'), sg.InputText(key='nome')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Nome do Artista', layout)
+        event, values = window.read()
+        window.close()
+        if event == 'Confirmar':
+            return values['nome'].strip()
+        return None
 
     def mostrar_artistas_seguidos(self, artistas_dados):
         """
         Mostra os detalhes dos artistas seguidos pelo usuário.
         """
-        print('\n-------- ARTISTAS SEGUIDOS ----------')
-        for dados_artista in artistas_dados:
-            print('Nome:', dados_artista['nome'])
-            print('Email:', dados_artista['email'])
-            print('Telefone:', dados_artista['telefone'])
-            print('Data de Nascimento:', dados_artista['data_nascimento'])
-            print('--------------------------------')
+        layout = [
+            [sg.Text('ARTISTAS SEGUIDOS', font=("Helvetica", 15))],
+            [sg.Multiline('\n'.join([f"Nome: {artista['nome']}\nEmail: {artista['email']}\nTelefone: {artista['telefone']}\nData de Nascimento: {artista['data_nascimento']}\n" for artista in artistas_dados]), size=(60, 10))],
+            [sg.Button('Ok')]
+        ]
+        window = sg.Window('Artistas Seguidos', layout)
+        window.read()
+        window.close()
 
     def mostrar_mensagem(self, msg):
         """
         Mostra uma mensagem na tela.
         """
-        print('\n' + msg + '\n')
+        sg.popup(msg)
+
+    def init_components(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('USUÁRIO', font=("Helvetica", 25))],
+            [sg.Text('Escolha a opção:', font=("Helvetica", 15))],
+            [sg.Radio('Cadastrar Usuário', "RD1", key='1')],
+            [sg.Radio('Listar Usuários', "RD1", key='2')],
+            [sg.Radio('Editar Usuário', "RD1", key='3')],
+            [sg.Radio('Excluir Usuário', "RD1", key='4')],
+            [sg.Radio('Página de Playlists', "RD1", key='5')],
+            [sg.Radio('Seguir Artista', "RD1", key='6')],
+            [sg.Radio('Deixar de Seguir Artista', "RD1", key='7')],
+            [sg.Radio('Ver Artistas Seguidos', "RD1", key='8')],
+            [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Usuário').Layout(layout)
+
