@@ -1,6 +1,7 @@
 from telas.tela_usuario import TelaUsuario
 from entidades.usuario import Usuario
 from controles.controlador_playlist import ControladorPlaylist
+from daos.usuario_dao import UsuarioDAO
 
 
 
@@ -10,30 +11,27 @@ class ControladorUsuario:
         uma instância de TelaUsuario, um controlador de playlists e uma referência
         ao controlador do sistema.
         """
-        self.__usuarios = []
+        self.__usuario_dao = UsuarioDAO()
         self.__tela_usuario = TelaUsuario()
         self.__controlador_playlists = ControladorPlaylist(self)
         self.__controlador_sistema = controlador_sistema
 
     def pegar_usuario_pelo_nome(self, nome: str):
         """Retorna o usuário com o nome especificado ou None se não for encontrado."""
-        for usuario in self.__usuarios:
-            if usuario.nome == nome:
-                return usuario
-        return None
+        return self.__usuario_dao.get(nome)
 
     def listar_usuarios(self):
         """Lista os usuários cadastrados."""
-        if self.__usuarios:
-            usuarios_dados = []
-            for usuario in self.__usuarios:
-                usuario_info = {
+        usuarios = self.__usuario_dao.get_all()
+        if usuarios:
+            usuarios_dados = [
+                {
                     'nome': usuario.nome,
                     'email': usuario.email,
                     'telefone': usuario.telefone,
                     'data_nascimento': usuario.data_nascimento
-                }
-                usuarios_dados.append(usuario_info)
+                } for usuario in usuarios
+            ]
             self.__tela_usuario.mostrar_usuarios(usuarios_dados)
         else:
             self.__tela_usuario.mostrar_mensagem("Nenhum usuário cadastrado.")
@@ -50,12 +48,12 @@ class ControladorUsuario:
                 dados_usuario['telefone'],
                 dados_usuario['data_nascimento']
             )
-            self.__usuarios.append(usuario)
+            self.__usuario_dao.add(usuario)
             self.__tela_usuario.mostrar_mensagem("Usuário cadastrado com sucesso!")
 
     def editar_usuario(self):
         """Edita um usuário existente com novos dados fornecidos pelo usuário."""
-        if not self.__usuarios:
+        if not self.__usuario_dao.get_all():
             self.__tela_usuario.mostrar_mensagem("Nenhum usuário cadastrado.")
             return
 
@@ -69,13 +67,14 @@ class ControladorUsuario:
             usuario.email = novos_dados_usuario['email']
             usuario.telefone = novos_dados_usuario['telefone']
             usuario.data_nascimento = novos_dados_usuario['data_nascimento']
+            self.__usuario_dao.update(usuario)
             self.__tela_usuario.mostrar_mensagem("Usuário editado com sucesso!")
         else:
             self.__tela_usuario.mostrar_mensagem('ATENÇÃO: Usuário não existente')
 
     def remover_usuario(self):
         """Remove um usuário da lista de usuários cadastrados."""
-        if not self.__usuarios:
+        if not self.__usuario_dao.get_all():
             self.__tela_usuario.mostrar_mensagem("Nenhum usuário cadastrado.")
             return
 
@@ -84,7 +83,7 @@ class ControladorUsuario:
         usuario = self.pegar_usuario_pelo_nome(nome_usuario)
 
         if usuario is not None:
-            self.__usuarios.remove(usuario)
+            self.__usuario_dao.remove(nome_usuario)
             self.__tela_usuario.mostrar_mensagem("Usuário removido com sucesso!")
         else:
             self.__tela_usuario.mostrar_mensagem("ATENÇÃO: Usuário não existente")
@@ -105,6 +104,7 @@ class ControladorUsuario:
 
             if artista:
                 usuario.artistas_seguidos.append(artista)
+                self.__usuario_dao.update(usuario)
                 self.__tela_usuario.mostrar_mensagem(f"Você seguiu o artista {artista.nome}!")
             else:
                 self.__tela_usuario.mostrar_mensagem("Artista não encontrado!")
@@ -148,6 +148,7 @@ class ControladorUsuario:
             if artista:
                 if artista in usuario.artistas_seguidos:
                     usuario.artistas_seguidos.remove(artista)
+                    self.__usuario_dao.update(usuario)
                     self.__tela_usuario.mostrar_mensagem(f"Você deixou de seguir o artista {artista.nome}!")
                 else:
                     self.__tela_usuario.mostrar_mensagem("Você não segue esse artista!")
