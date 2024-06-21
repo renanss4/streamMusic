@@ -1,53 +1,39 @@
 import pickle
-from abc import ABC, abstractmethod
+from abc import ABC
 
 class DAO(ABC):
-    @abstractmethod
     def __init__(self, datasource=''):
         self.__datasource = datasource
         self.__cache = {}
         try:
             self.__load()
-        except:
+        except FileNotFoundError:
             self.__dump()
 
-    @abstractmethod
     def __dump(self):
-        pickle.dump(self.__cache, open(self.__datasource, 'wb'))
+        with open(self.__datasource, 'wb') as f:
+            pickle.dump(self.__cache, f)
 
-    @abstractmethod
     def __load(self):
-        self.__cache = pickle.load(open(self.__datasource, 'rb'))
+        with open(self.__datasource, 'rb') as f:
+            self.__cache = pickle.load(f)
 
     def add(self, key, value):
         self.__cache[key] = value
         self.__dump()
 
     def get(self, key):
-        try:
-            return self.__cache[key]
-        except:
-            return None
+        return self.__cache.get(key)
         
     def get_all(self):
-        try:
-            return self.__cache.values()
-        except:
-            return None
+        return list(self.__cache.values())
         
     def update(self, key, value):
-        try:
-            if(self.__cache[key] != None):
-                self.__cache[key] = value #atualiza a entrada
-                self.__dump()  #atualiza o arquivo
-        except KeyError:
-            pass  # implementar aqui o tratamento da exceção
-
-
+        if key in self.__cache:
+            self.__cache[key] = value
+            self.__dump()
 
     def remove(self, key):
-        try:
+        if key in self.__cache:
             del self.__cache[key]
             self.__dump()
-        except KeyError:
-            pass
