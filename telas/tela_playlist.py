@@ -1,4 +1,4 @@
-import PySimpleGUI as sg # type: ignore
+import PySimpleGUI as sg
 
 class TelaPlaylist:
     def __init__(self):
@@ -31,6 +31,7 @@ class TelaPlaylist:
         Solicita e retorna os dados de uma nova playlist.
         """
         layout = [
+            [sg.Text('CADASTRAR/EDITAR PLAYLIST', font=("Helvetica", 15))],
             [sg.Text('Nome'), sg.InputText(key='nome')],
             [sg.Text('Descrição'), sg.Multiline(key='descricao')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
@@ -52,13 +53,29 @@ class TelaPlaylist:
         window.close()
         return values
 
+    def buscar_playlist(self):
+        """
+        Solicita e retorna o nome de uma playlist.
+        """
+        layout = [
+            [sg.Text('BUSCAR PLAYLIST', font=("Helvetica", 15))],
+            [sg.Text('Nome'), sg.InputText(key='nome')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Buscar Playlist', layout)
+        event, values = window.read()
+        window.close()
+        if event == 'Confirmar':
+            return values['nome'].strip()
+        return None
+
     def mostrar_playlists(self, playlists_dados):
         """
         Mostra os detalhes das playlists cadastradas.
         """
         layout = [
-            [sg.Text('Detalhes das Playlists Cadastradas', font=("Helvetica", 15))],
-            [sg.Multiline('\n'.join([f"Nome: {playlist['nome']}\nDescrição: {playlist['descricao']}\n" for playlist in playlists_dados]), size=(50, 10))],
+            [sg.Text('PLAYLISTS CADASTRADAS', font=("Helvetica", 15))],
+            [sg.Multiline('\n'.join([f"Nome: {playlist['nome']}\nDescrição: {playlist['descricao']}\n" for playlist in playlists_dados]), size=(60, 10))],
             [sg.Button('Ok')]
         ]
         window = sg.Window('Playlists Cadastradas', layout)
@@ -84,4 +101,3 @@ class TelaPlaylist:
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Playlist').Layout(layout)
-
