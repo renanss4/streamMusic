@@ -63,11 +63,19 @@ class ControladorUsuario:
 
         if usuario is not None:
             novos_dados_usuario = self.__tela_usuario.pegar_dados_usuario()
+
+            # Remover o usuário antigo do DAO antes de atualizar
+            self.__usuario_dao.remove(usuario.nome)
+            
+            # Atualizar os dados do usuário
             usuario.nome = novos_dados_usuario['nome']
             usuario.email = novos_dados_usuario['email']
             usuario.telefone = novos_dados_usuario['telefone']
             usuario.data_nascimento = novos_dados_usuario['data_nascimento']
-            self.__usuario_dao.update(usuario)
+            
+            # Adicionar o usuário atualizado ao DAO
+            self.__usuario_dao.add(usuario)
+            
             self.__tela_usuario.mostrar_mensagem("Usuário editado com sucesso!")
         else:
             self.__tela_usuario.mostrar_mensagem('ATENÇÃO: Usuário não existente')

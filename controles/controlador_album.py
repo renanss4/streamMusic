@@ -1,31 +1,25 @@
 from telas.tela_album import TelaAlbum
 from entidades.album import Album
-
+from daos.album_dao import AlbumDAO
 
 class ControladorAlbum:
     def __init__(self, controlador_artista) -> None:
         """Inicializa o controlador de álbuns com uma lista de álbuns, 
         uma instância de TelaAlbum e um controlador de artistas.
         """
-        self.__albuns = []
+        self.__album_dao = AlbumDAO()
         self.__tela_album = TelaAlbum()
         self.__controlador_artista = controlador_artista
-        # self.__controlador_musica = controlador_musica
 
     def pegar_album_pelo_nome(self, nome: str):
         """Retorna um álbum com o nome especificado ou None se não for encontrado."""
-        for album in self.__albuns:
-            if album.nome == nome:
-                return album
-        return None
+        return self.__album_dao.get(nome)
 
     def listar_albuns(self):
         """Exibe a lista de álbuns cadastrados ou uma mensagem informando que não há álbuns."""
-        if self.__albuns:
-            albuns_dados = []
-            for album in self.__albuns:
-                album_dado = {'nome': album.nome, 'descricao': album.descricao}
-                albuns_dados.append(album_dado)
+        albuns = self.__album_dao.get_all()
+        if albuns:
+            albuns_dados = [{'nome': album.nome, 'descricao': album.descricao} for album in albuns]
             self.__tela_album.mostrar_albuns(albuns_dados)
         else:
             self.__tela_album.mostrar_mensagem("Nenhum álbum cadastrado.")
@@ -33,19 +27,16 @@ class ControladorAlbum:
     def cadastrar_album(self):
         """Cadastra um novo álbum após verificar se o álbum já existe."""
         dados_album = self.__tela_album.pegar_dados_album()
-        album = Album(
-            dados_album['nome'],
-            dados_album['descricao']
-        )
         if self.pegar_album_pelo_nome(dados_album['nome']):
             self.__tela_album.mostrar_mensagem("Álbum já existente!")
         else:
-            self.__albuns.append(album)
+            album = Album(dados_album['nome'], dados_album['descricao'])
+            self.__album_dao.add(album)
             self.__tela_album.mostrar_mensagem("Álbum cadastrado com sucesso!")
 
     def editar_album(self):
         """Edita um álbum existente com novos dados fornecidos pelo usuário."""
-        if not self.__albuns:
+        if not self.__album_dao.get_all():
             self.__tela_album.mostrar_mensagem("Nenhum álbum cadastrado.")
             return
 
@@ -55,15 +46,24 @@ class ControladorAlbum:
 
         if album is not None:
             novos_dados_album = self.__tela_album.pegar_dados_album()
+
+            # Remover o álbum antigo do DAO antes de atualizar
+            self.__album_dao.remove(album.nome)
+            
+            # Atualizar os dados do álbum
             album.nome = novos_dados_album['nome']
             album.descricao = novos_dados_album['descricao']
+            
+            # Adicionar o álbum atualizado ao DAO
+            self.__album_dao.add(album)
+            
             self.__tela_album.mostrar_mensagem("Álbum editado com sucesso!")
         else:
             self.__tela_album.mostrar_mensagem('ATENÇÃO: Álbum não existente')
 
     def remover_album(self):
         """Remove um álbum da lista de álbuns cadastrados."""
-        if not self.__albuns:
+        if not self.__album_dao.get_all():
             self.__tela_album.mostrar_mensagem("Nenhum álbum cadastrado.")
             return
 
@@ -72,7 +72,7 @@ class ControladorAlbum:
         album = self.pegar_album_pelo_nome(nome_album)
 
         if album is not None:
-            self.__albuns.remove(album)
+            self.__album_dao.remove(nome_album)
             self.__tela_album.mostrar_mensagem("Álbum removido com sucesso!")
         else:
             self.__tela_album.mostrar_mensagem('ATENÇÃO: Álbum não existente')

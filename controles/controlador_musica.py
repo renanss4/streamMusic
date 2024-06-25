@@ -1,30 +1,25 @@
 from telas.tela_musica import TelaMusica
+from daos.musica_dao import MusicaDAO
 from entidades.musica import Musica
-
-
 
 class ControladorMusica:
     """Controlador para gerenciar operações relacionadas a músicas."""
 
     def __init__(self, controlador_artista) -> None:
         """Inicializa o controlador de música."""
-        self.__musicas = []
+        self.__musica_dao = MusicaDAO()  # Instância do DAO para manipular músicas
         self.__tela_musica = TelaMusica()
         self.__controlador_artista = controlador_artista
-        # self.__controlador_album = controlador_album
-        # self.__controlador_playlist = controlador_playlist
 
     def pegar_musica_pelo_nome(self, nome: str):
         """Retorna a música correspondente ao nome fornecido."""
-        for musica in self.__musicas:
-            if musica.nome == nome:
-                return musica
-        return None
+        return self.__musica_dao.get(nome)
 
     def listar_musicas(self):
         """Lista todas as músicas cadastradas."""
-        if self.__musicas:
-            musicas_dados = [{'nome': musica.nome, 'letra': musica.letra} for musica in self.__musicas]
+        musicas = self.__musica_dao.get_all()
+        if musicas:
+            musicas_dados = [{'nome': musica.nome, 'letra': musica.letra} for musica in musicas]
             self.__tela_musica.mostrar_musicas(musicas_dados)
         else:
             self.__tela_musica.mostrar_mensagem("Nenhuma música cadastrada.")
@@ -36,12 +31,13 @@ class ControladorMusica:
             self.__tela_musica.mostrar_mensagem("Música já existente!")
         else:
             musica = Musica(dados_musica['nome'], dados_musica['letra'])
-            self.__musicas.append(musica)
+            self.__musica_dao.add(musica)
             self.__tela_musica.mostrar_mensagem("Música cadastrada com sucesso!")
 
     def editar_musica(self):
         """Permite a edição dos dados de uma música."""
-        if not self.__musicas:
+        musicas = self.__musica_dao.get_all()
+        if not musicas:
             self.__tela_musica.mostrar_mensagem("Nenhuma música cadastrada.")
             return
 
@@ -51,15 +47,22 @@ class ControladorMusica:
 
         if musica is not None:
             novos_dados_musica = self.__tela_musica.pegar_dados_musica()
+
+            # Remover a música antiga e adicionar a nova
+            self.__musica_dao.remove(musica.nome)
+
             musica.nome = novos_dados_musica['nome']
             musica.letra = novos_dados_musica['letra']
+
+            self.__musica_dao.add(musica)
             self.__tela_musica.mostrar_mensagem("Música editada com sucesso!")
         else:
             self.__tela_musica.mostrar_mensagem('ATENÇÃO: Música não existente')
 
     def remover_musica(self):
         """Remove uma música."""
-        if not self.__musicas:
+        musicas = self.__musica_dao.get_all()
+        if not musicas:
             self.__tela_musica.mostrar_mensagem("Nenhuma música cadastrada.")
             return
 
@@ -68,7 +71,7 @@ class ControladorMusica:
         musica = self.pegar_musica_pelo_nome(nome_musica)
 
         if musica is not None:
-            self.__musicas.remove(musica)
+            self.__musica_dao.remove(nome_musica)
             self.__tela_musica.mostrar_mensagem("Música removida com sucesso!")
         else:
             self.__tela_musica.mostrar_mensagem('ATENÇÃO: Música não existente')
