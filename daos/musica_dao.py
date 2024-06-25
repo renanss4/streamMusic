@@ -3,7 +3,7 @@ from entidades.musica import Musica
 
 class MusicaDAO(DAO):
     def __init__(self):
-        super().__init__('musicas.pkl')
+        super().__init__('data.pkl')
 
     def add(self, musica: Musica):
         if musica is not None and isinstance(musica, Musica) and isinstance(musica.nome, str):

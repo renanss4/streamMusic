@@ -3,7 +3,7 @@ from entidades.artista import Artista
 
 class ArtistaDAO(DAO):
     def __init__(self):
-        super().__init__('artistas.pkl')
+        super().__init__('data.pkl')
 
     def add(self, artista: Artista):
         if artista is not None and isinstance(artista, Artista) and isinstance(artista.nome, str):

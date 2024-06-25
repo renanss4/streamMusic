@@ -3,7 +3,7 @@ from entidades.contrato import Contrato
 
 class ContratoDAO(DAO):
     def __init__(self):
-        super().__init__('contratos.pkl')
+        super().__init__('data.pkl')
 
     def add(self, contrato: Contrato):
         if contrato is not None and isinstance(contrato, Contrato) and isinstance(contrato.numero, int):

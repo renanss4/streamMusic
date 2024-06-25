@@ -3,7 +3,7 @@ from entidades.album import Album
 
 class AlbumDAO(DAO):
     def __init__(self):
-        super().__init__('albuns.pkl')
+        super().__init__('data.pkl')
 
     def add(self, album: Album):
         if album is not None and isinstance(album, Album) and isinstance(album.nome, str):

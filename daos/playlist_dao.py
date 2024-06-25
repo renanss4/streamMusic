@@ -3,7 +3,7 @@ from entidades.playlist import Playlist
 
 class PlaylistDAO(DAO):
     def __init__(self):
-        super().__init__('playlists.pkl')
+        super().__init__('data.pkl')
 
     def add(self, playlist: Playlist):
         if playlist is not None and isinstance(playlist, Playlist) and isinstance(playlist.nome, str):

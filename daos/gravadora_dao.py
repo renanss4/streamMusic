@@ -3,7 +3,7 @@ from entidades.gravadora import Gravadora
 
 class GravadoraDAO(DAO):
     def __init__(self):
-        super().__init__('gravadoras.pkl')
+        super().__init__('data.pkl')
 
     def add(self, gravadora: Gravadora):
         if gravadora is not None and isinstance(gravadora, Gravadora) and isinstance(gravadora.nome, str):
