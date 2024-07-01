@@ -13,7 +13,6 @@ class ControladorArtista:
         self.__controlador_musicas = ControladorMusica(self)
         self.__controlador_albuns = ControladorAlbum(self)
         self.__controlador_playlists = ControladorPlaylist(self)
-        # self.__controlador_contratos = ControladorContrato(self)
         self.__controlador_sistema = controlador_sistema
 
     def pegar_artista_pelo_nome(self, nome: str):
@@ -108,13 +107,17 @@ class ControladorArtista:
             artista_seguir = self.pegar_artista_pelo_nome(nome_artista_seguir)
 
             if artista_seguir:
-                artista.artistas_seguidos.append(artista_seguir)
-                self.__artista_dao.update(artista)
-                self.__tela_artista.mostrar_mensagem(f"Você seguiu o artista {artista_seguir.nome}!")
+                if artista_seguir not in artista.artistas_seguidos:
+                    artista.artistas_seguidos.append(artista_seguir)
+                    self.__artista_dao.update(artista)
+                    self.__tela_artista.mostrar_mensagem(f"Você seguiu o artista {artista_seguir.nome}!")
+                else:
+                    self.__tela_artista.mostrar_mensagem("Você já segue esse artista!")
             else:
                 self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
         else:
             self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
+
 
     def deixar_de_seguir_artista(self):
         """Permite que um artista deixe de seguir outro artista."""
@@ -142,6 +145,7 @@ class ControladorArtista:
         else:
             self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
 
+
     def ver_artistas_seguidos(self):
         """Exibe a lista de artistas seguidos por um artista específico."""
         self.__tela_artista.mostrar_mensagem("Artistas Seguidos")
@@ -150,13 +154,14 @@ class ControladorArtista:
 
         if artista:
             artistas_dados = [{'nome': artista_seguido.nome, 'email': artista_seguido.email, 'telefone': artista_seguido.telefone,
-                               'data_nascimento': artista_seguido.data_nascimento} for artista_seguido in artista.artistas_seguidos]
+                            'data_nascimento': artista_seguido.data_nascimento} for artista_seguido in artista.artistas_seguidos]
             if artistas_dados:
                 self.__tela_artista.mostrar_artistas(artistas_dados)
             else:
                 self.__tela_artista.mostrar_mensagem("Esse artista não segue nenhum outro artista.")
         else:
             self.__tela_artista.mostrar_mensagem("Artista não encontrado!")
+
 
     def abrir_musicas(self):
         """Abre a tela do controlador de músicas."""
