@@ -4,7 +4,7 @@ from excecoes.excecoes import InvalidEntityError, EntityNotFoundError
 
 class MusicaDAO(DAO):
     def __init__(self):
-        super().__init__('data.pkl')
+        super().__init__('musica.pkl')
 
     def add(self, musica: Musica):
         try:

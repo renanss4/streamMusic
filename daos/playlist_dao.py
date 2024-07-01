@@ -4,7 +4,7 @@ from excecoes.excecoes import InvalidEntityError, EntityNotFoundError
 
 class PlaylistDAO(DAO):
     def __init__(self):
-        super().__init__('data.pkl')
+        super().__init__('playlist.pkl')
 
     def add(self, playlist: Playlist):
         try:

@@ -4,7 +4,7 @@ from excecoes.excecoes import InvalidEntityError, EntityNotFoundError
 
 class AlbumDAO(DAO):
     def __init__(self):
-        super().__init__('data.pkl')
+        super().__init__('album.pkl')
 
     def add(self, album: Album):
         try:

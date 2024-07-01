@@ -4,7 +4,7 @@ from excecoes.excecoes import InvalidEntityError, EntityNotFoundError
 
 class UsuarioDAO(DAO):
     def __init__(self):
-        super().__init__('data.pkl')
+        super().__init__('usuario.pkl')
 
     def add(self, usuario: Usuario):
         try:

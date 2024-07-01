@@ -4,7 +4,7 @@ from excecoes.excecoes import InvalidEntityError, EntityNotFoundError
 
 class ContratoDAO(DAO):
     def __init__(self):
-        super().__init__('data.pkl')
+        super().__init__('contrato.pkl')
 
     def add(self, contrato: Contrato):
         try:

@@ -4,7 +4,7 @@ from excecoes.excecoes import InvalidEntityError, EntityNotFoundError
 
 class GravadoraDAO(DAO):
     def __init__(self):
-        super().__init__('data.pkl')
+        super().__init__('gravadora.pkl')
 
     def add(self, gravadora: Gravadora):
         try:
