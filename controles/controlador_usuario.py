@@ -99,21 +99,27 @@ class ControladorUsuario:
     def seguir_artista(self):
         """Permite que um usuário siga um artista."""
         self.__tela_usuario.mostrar_mensagem("Seguir Artista")
-        if not self.__controlador_sistema.controlador_artistas.artistas:
+        
+        # Verifica se há artistas cadastrados usando o método correto
+        artistas = self.__controlador_sistema.controlador_artistas._ControladorArtista__artista_dao.get_all()
+        if not artistas:
             self.__tela_usuario.mostrar_mensagem("Nenhum artista cadastrado.")
             return
 
         nome_usuario = self.__tela_usuario.buscar_usuario()
-        usuario = self.pegar_usuario_pelo_nome(nome_usuario)
+        usuario = self.__usuario_dao.get(nome_usuario)
 
         if usuario:
             nome_artista = self.__tela_usuario.pegar_nome_artista()
             artista = self.__controlador_sistema.controlador_artistas.pegar_artista_pelo_nome(nome_artista)
 
             if artista:
-                usuario.artistas_seguidos.append(artista)
-                self.__usuario_dao.update(usuario)
-                self.__tela_usuario.mostrar_mensagem(f"Você seguiu o artista {artista.nome}!")
+                if artista not in usuario.artistas_seguidos:
+                    usuario.artistas_seguidos.append(artista)
+                    self.__usuario_dao.update(usuario)
+                    self.__tela_usuario.mostrar_mensagem(f"Você seguiu o artista {artista.nome}!")
+                else:
+                    self.__tela_usuario.mostrar_mensagem(f"Você já segue o artista {artista.nome}!")
             else:
                 self.__tela_usuario.mostrar_mensagem("Artista não encontrado!")
         else:
@@ -123,18 +129,11 @@ class ControladorUsuario:
         """Exibe os artistas seguidos pelo usuário."""
         self.__tela_usuario.mostrar_mensagem("Artistas Seguidos")
         nome_usuario = self.__tela_usuario.buscar_usuario()
-        usuario = self.pegar_usuario_pelo_nome(nome_usuario)
+        usuario = self.__usuario_dao.get(nome_usuario)
 
         if usuario:
-            artistas_dados = []
-            for artista in usuario.artistas_seguidos:
-                artista_info = {
-                    'nome': artista.nome,
-                    'email': artista.email,
-                    'telefone': artista.telefone,
-                    'data_nascimento': artista.data_nascimento
-                }
-                artistas_dados.append(artista_info)
+            artistas_dados = [{'nome': artista.nome, 'email': artista.email, 'telefone': artista.telefone, 'data_nascimento': artista.data_nascimento}
+                            for artista in usuario.artistas_seguidos]
 
             if artistas_dados:
                 self.__tela_usuario.mostrar_artistas_seguidos(artistas_dados)
@@ -147,7 +146,7 @@ class ControladorUsuario:
         """Permite que um usuário deixe de seguir um artista."""
         self.__tela_usuario.mostrar_mensagem("Deixar de Seguir Artista")
         nome_usuario = self.__tela_usuario.buscar_usuario()
-        usuario = self.pegar_usuario_pelo_nome(nome_usuario)
+        usuario = self.__usuario_dao.get(nome_usuario)
 
         if usuario:
             nome_artista = self.__tela_usuario.pegar_nome_artista()
