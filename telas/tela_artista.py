@@ -1,36 +1,36 @@
 import PySimpleGUI as sg # type: ignore
 from datetime import datetime
+from excecoes.excecoes import InvalidEntityError, EntityNotFoundError
 
 class TelaArtista:
     def __init__(self):
         self.__window = None
 
     def imprimir_opcoes(self):
-        """
-        Mostra as opções disponíveis para o usuário e retorna a escolha.
-        """
         self.init_components()
         while True:
-            event, values = self.__window.read()
-            if event in (None, 'Cancelar'):
-                opcao = 0
-                break
-            if event == 'Confirmar':
-                for key, value in values.items():
-                    if value:
-                        opcao = int(key)
-                        break
-                if 0 <= opcao <= 10:
+            try:
+                event, values = self.__window.read()
+                if event in (None, 'Cancelar'):
+                    opcao = 0
                     break
-                else:
-                    sg.popup('Opção inválida! Escolha uma opção entre 0 e 10.')
+                if event == 'Confirmar':
+                    for key, value in values.items():
+                        if value:
+                            opcao = int(key)
+                            break
+                    if 0 <= opcao <= 10:
+                        break
+                    else:
+                        sg.popup('Opção inválida! Escolha uma opção entre 0 e 10.')
+            except Exception as e:
+                sg.popup(f'Ocorreu um erro: {e}')
+                opcao = None
+                break
         self.__window.close()
         return opcao
 
     def pegar_dados_artista(self):
-        """
-        Solicita e retorna os dados de um novo artista.
-        """
         layout = [
             [sg.Text('Nome'), sg.InputText(key='nome')],
             [sg.Text('Email'), sg.InputText(key='email')],
@@ -40,16 +40,16 @@ class TelaArtista:
         ]
         window = sg.Window('Cadastrar Novo Artista', layout)
         while True:
-            event, values = window.read()
-            if event in (None, 'Cancelar'):
-                values = None
-                break
-            if event == 'Confirmar':
-                nome = values['nome'].strip()
-                email = values['email'].strip()
-                telefone = values['telefone'].strip()
-                data_nascimento_str = values['data_nascimento'].strip()
-                try:
+            try:
+                event, values = window.read()
+                if event in (None, 'Cancelar'):
+                    values = None
+                    break
+                if event == 'Confirmar':
+                    nome = values['nome'].strip()
+                    email = values['email'].strip()
+                    telefone = values['telefone'].strip()
+                    data_nascimento_str = values['data_nascimento'].strip()
                     data_nascimento = datetime.strptime(data_nascimento_str, '%Y-%m-%d').date()
                     if nome and email and telefone.isdigit():
                         values = {
@@ -60,60 +60,71 @@ class TelaArtista:
                         }
                         break
                     else:
-                        sg.popup("Dados inválidos! Verifique se todos os campos estão corretos.")
-                except ValueError:
-                    sg.popup("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
+                        raise InvalidEntityError("Dados inválidos! Verifique se todos os campos estão corretos.")
+            except ValueError:
+                sg.popup("Data inválida! Por favor, insira no formato YYYY-MM-DD.")
+            except InvalidEntityError as e:
+                sg.popup(str(e))
+            except Exception as e:
+                sg.popup(f'Ocorreu um erro inesperado: {e}')
+                values = None
+                break
         window.close()
         return values
 
     def mostrar_artistas(self, artistas_dados):
-        """
-        Mostra os detalhes dos artistas cadastrados.
-        """
-        layout = [
-            [sg.Text('Detalhes dos Artistas Cadastrados', font=("Helvetica", 15))],
-            [sg.Multiline('\n'.join([f"Nome: {artista['nome']}\nEmail: {artista['email']}\nTelefone: {artista['telefone']}\nData de Nascimento: {artista['data_nascimento']}\n" for artista in artistas_dados]), size=(50, 10))],
-            [sg.Button('Ok')]
-        ]
-        window = sg.Window('Artistas Cadastrados', layout)
-        window.read()
-        window.close()
+        try:
+            layout = [
+                [sg.Text('Detalhes dos Artistas Cadastrados', font=("Helvetica", 15))],
+                [sg.Multiline('\n'.join([f"Nome: {artista['nome']}\nEmail: {artista['email']}\nTelefone: {artista['telefone']}\nData de Nascimento: {artista['data_nascimento']}\n" for artista in artistas_dados]), size=(50, 10))],
+                [sg.Button('Ok')]
+            ]
+            window = sg.Window('Artistas Cadastrados', layout)
+            window.read()
+            window.close()
+        except Exception as e:
+            sg.popup(f'Ocorreu um erro ao mostrar os artistas: {e}')
 
     def buscar_artista(self):
-        """
-        Solicita o nome do artista que deseja buscar.
-        """
-        layout = [
-            [sg.Text('Nome do artista que deseja buscar'), sg.InputText(key='nome')],
-            [sg.Button('Buscar'), sg.Cancel('Cancelar')]
-        ]
-        window = sg.Window('Buscar Artista', layout)
-        event, values = window.read()
-        window.close()
-        if event == 'Buscar':
-            return values['nome'].strip()
-        return None
+        try:
+            layout = [
+                [sg.Text('Nome do artista que deseja buscar'), sg.InputText(key='nome')],
+                [sg.Button('Buscar'), sg.Cancel('Cancelar')]
+            ]
+            window = sg.Window('Buscar Artista', layout)
+            event, values = window.read()
+            window.close()
+            if event == 'Buscar':
+                return values['nome'].strip()
+            return None
+        except Exception as e:
+            sg.popup(f'Ocorreu um erro ao buscar o artista: {e}')
+            return None
 
     def pegar_nome_artista(self):
-        """
-        Solicita o nome de um artista.
-        """
-        layout = [
-            [sg.Text('Nome do artista'), sg.InputText(key='nome')],
-            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
-        ]
-        window = sg.Window('Nome do Artista', layout)
-        event, values = window.read()
-        window.close()
-        if event == 'Confirmar':
-            return values['nome'].strip()
-        return None
+        try:
+            layout = [
+                [sg.Text('Nome do artista'), sg.InputText(key='nome')],
+                [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            ]
+            window = sg.Window('Nome do Artista', layout)
+            event, values = window.read()
+            window.close()
+            if event == 'Confirmar':
+                return values['nome'].strip()
+            return None
+        except Exception as e:
+            sg.popup(f'Ocorreu um erro ao pegar o nome do artista: {e}')
+            return None
 
     def mostrar_mensagem(self, msg):
         """
         Mostra uma mensagem na tela.
         """
-        sg.popup(msg)
+        try:
+            sg.popup(msg)
+        except Exception as e:
+            sg.popup(f'Ocorreu um erro ao mostrar a mensagem: {e}')
 
     def init_components(self):
         sg.ChangeLookAndFeel('DarkTeal4')
@@ -134,4 +145,3 @@ class TelaArtista:
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Artista').Layout(layout)
-
